@@ -1,0 +1,1 @@
+﻿export { LanguageList as LanguageList } from "./localization/languages";

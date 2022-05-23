@@ -1,0 +1,53 @@
+import { configureStore } from "@reduxjs/toolkit";
+import logger from 'redux-logger';
+import { reduxBatch } from '@manaflair/redux-batch';
+import userAuthenticate from "../slice/userAuthincateSlice";
+import theme from "../slice/themeSlice";
+import languageState from "../slice/languageSlice";
+import { UserResponse } from "../models/user/authenticateUserResponse";
+import { CookieEncryptedGet, CookieGet } from "../utils";
+import Cookies from "js-cookie";
+
+const reducer = {
+    user: userAuthenticate,
+    lang:languageState,
+    theme: theme
+}
+
+// @ts-ignore
+const authenticatedTokenStorageKey: string = process.env.REACT_APP_authenticatedTokenStorageKey;
+// @ts-ignore
+const authenticatedUserStorageKey: string = process.env.REACT_APP_authenticatedUserStorageKey;
+// @ts-ignore
+const languageStorageKey: string = process.env.REACT_APP_languageStorageKey;
+const userObject = JSON.parse(CookieEncryptedGet(authenticatedUserStorageKey) || '{}') as UserResponse;
+const preloadedState = {
+    user: {
+        userAccount: userObject ?? null,
+        userToken: Cookies.get(authenticatedTokenStorageKey) ? CookieGet(authenticatedTokenStorageKey) : null,
+        isLoading: false,
+        isAuthenticated: Cookies.get(authenticatedTokenStorageKey) ? true : false,
+        errors: []
+    },
+    lang : {
+        language: Cookies.get(languageStorageKey) ? CookieGet(languageStorageKey) : "ar-AE",
+    },
+    theme: {
+        isRtl: Cookies.get(languageStorageKey) ? CookieGet(languageStorageKey) == "ar-AE" ? true : false : false,
+    }
+};
+
+//
+// const store1: Store<ArticleState, ArticleAction> & {
+//     dispatch: DispatchType
+// } = createStore(reducer, applyMiddleware(thunk))
+
+const store = configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+    devTools: process.env.NODE_ENV !== 'production',
+    preloadedState,
+    enhancers: [reduxBatch],
+})
+
+export default store;
