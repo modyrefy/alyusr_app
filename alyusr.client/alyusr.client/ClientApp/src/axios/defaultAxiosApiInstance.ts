@@ -5,7 +5,7 @@ import { ValidationError } from "../models/validation/error";
 import { CookieGet } from "../utils"
 // @ts-ignore
 const DefaultAxiosApiInstance = axios.create({
-    baseURL: process.env.AlyusrApiEndpoint != null ? process.env.AlyusrApiEndpoint.toString().trim() : "no-url",
+    baseURL: process.env.REACT_APP_AlyusrApiEndpoint != null ? process.env.REACT_APP_AlyusrApiEndpoint.toString().trim() : "no-url",
     headers: {
         //Accept:"application/json",
         "Access-Control-Allow-Origin": "*",
@@ -54,8 +54,8 @@ DefaultAxiosApiInstance.interceptors.response.use(
                     result: {},
                     errors: [
                         {
-                            MessageEn: 'authorization failed please try to login',
-                            MessageAr: 'فشل فى تسجيل الدخول الرجاء اعادة المحاولة مرة اخرى'
+                            messageEn: 'authorization failed please try to login',
+                            messageAr: 'فشل فى تسجيل الدخول الرجاء اعادة المحاولة مرة اخرى'
                         }
                     ]
                 };
@@ -63,7 +63,7 @@ DefaultAxiosApiInstance.interceptors.response.use(
                 const errors: ValidationError[] = [];
                 if (error.response !== null && error.response.data !== null && error.response.data.Errors !== null && error.response.data.errors !== undefined && error.response.data.errors.length != 0) {
                     error.response.data.errors.map((err: any) => {
-                        errors.push({ MessageAr: err.errorMessage, MessageEn: err.errorMessage});
+                        errors.push({ messageAr: err.errorMessage, messageEn: err.errorMessage});
                     });
                 } else {
 
@@ -81,7 +81,7 @@ DefaultAxiosApiInstance.interceptors.response.use(
                     recordCount: 0,
                     result: {},
                     token: '',
-                    errors: [{ MessageAr: error.errorMessage, MessageEn: error.errorMessage }]
+                    errors: [{ messageAr: error.errorMessage, messageEn: error.errorMessage }]
                 };
                 return result;
             } else if (error.request) {
@@ -90,8 +90,8 @@ DefaultAxiosApiInstance.interceptors.response.use(
                     token: '',
                     result: {},
                     errors: [{
-                        MessageEn: 'error occurred  try again later',
-                        MessageAr: 'حدث خطأ حاول مرة أخرى في وقت لاحق'
+                        messageEn: 'error occurred  try again later',
+                        messageAr: 'حدث خطأ حاول مرة أخرى في وقت لاحق'
                     }]
                 };
                 //return  error.request.data;

@@ -1,3 +1,14 @@
+import {ValidationError} from "../validation/error";
+
+export interface AuthenticateUserResponse {
+    result?: UserResponse |null
+    userToken?:string|null,
+    isLoading:boolean,
+    isAuthenticated:boolean,
+    redirectUrl?:string,
+    errors?:ValidationError[]
+}
+
 export interface UserResponse {
     UserID: number
     Lang: number

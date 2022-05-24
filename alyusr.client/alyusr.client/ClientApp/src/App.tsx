@@ -1,28 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import { useTranslation } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
+import { useSelector } from "react-redux";
 import './App.css';
+import { RoutesComponent } from './routes/route/RoutesComponent';
 
 function App() {
+    const { t } = useTranslation();
+    // @ts-ignore
+    const theme: IThemeState = useSelector((state: IThemeState) => ({ ...state.theme }));
     return (
-        <div className="App">
-            <p>xxxxxxx</p>
-            <p>{process.env.REACT_APP_AlyusrApiEndpoint }</p>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        //
+        <div dir={theme.isRtl ? "rtl" : "ltr"}>
+            <BrowserRouter>
+                <RoutesComponent />
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

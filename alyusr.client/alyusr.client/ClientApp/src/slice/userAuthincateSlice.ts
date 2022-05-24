@@ -1,14 +1,13 @@
 ﻿import { createSlice } from "@reduxjs/toolkit";
 import defaultAxiosApiInstance from "../axios/defaultAxiosApiInstance";
-import { AuthenticateUserResponse, UserResponse } from "../models/user/AuthenticateUserResponse";
-import { LayoutEnum, UserRoleEnum } from "../models/enums/EnumList";
-import { IUserState } from "../models/user/UserState";
-import { AuthenticateUserRequest } from "../models/user/AuthenticateUserRequest";
-import { CookieEncryptedSet, CookieSet } from "../utils/cookies/CookiesManager";
+import {AuthenticateUserResponse, UserResponse} from "../models/user/authenticateUserResponse";
+import { LayoutEnum, UserRoleEnum } from "../models/enums/enumList";
+import { AuthenticateUserRequest } from "../models/user/authenticateUserRequest";
+import { CookieEncryptedSet, CookieSet } from "../utils/cookies/cookiesManager";
 
 
-const initialState: IUserState = {
-    userAccount: null,
+const initialState: AuthenticateUserResponse = {
+    result: null,
     userToken: null,
     isLoading: false,
     isAuthenticated: false,
@@ -39,7 +38,7 @@ const slice = createSlice({
             }
             return {
                 ...state,
-                userAccount: response,//action.payload,
+                result: response,//action.payload,
                 userToken: token,
                 isLoading: false,
                 isAuthenticated: true,
@@ -53,7 +52,7 @@ const slice = createSlice({
             CookieSet(process.env.REACT_APP_authenticatedTokenStorageKey, token);
             return {
                 ...state,
-                userAccount: null,//action.payload,
+                result: null,//action.payload,
                 userToken: token,
                 isLoading: false,
                 isAuthenticated: true,
@@ -71,7 +70,7 @@ const slice = createSlice({
         setAuthenticationReset: (state, action) => {
             return {
                 ...state,
-                userAccount: null,
+                result: null,
                 isLoading: false,
                 isAuthenticated: false,
                 redirectUrl: "/inspection/unAuthenticated",
@@ -90,26 +89,26 @@ const {
     setIntegrationAuthenticateSuccess
 } = slice.actions;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const generateUserDefaultLayoutStorage = async (user: UserResponse): Promise<string | undefined> => {
+const generateUserDefaultLayoutStorage = async (user: AuthenticateUserResponse): Promise<string | undefined> => {
     let defaultLayout: number = LayoutEnum.DefaultLayout;
-    if (user !== null && user != undefined) {
-        switch (user.roleId) {
-            case UserRoleEnum.OnlineUser:
-                defaultLayout = LayoutEnum.OnlineLayout;
-                break;
-            // case UserRoleEnum.Admin:
-            //     defaultLayout = LayoutEnum.AdminLayout;
-            //     break;
-            // case UserRoleEnum.SeniorAdmin:
-            //     defaultLayout = LayoutEnum.SeniorAdminLayout;
-            //     break;
-            case UserRoleEnum.Inspector:
-            case UserRoleEnum.SeniorAdmin:
-            case UserRoleEnum.Admin:
-            default:
-                defaultLayout = LayoutEnum.DefaultLayout;
-                break;
-        }
+    if (user !== null && user != undefined ) {
+        //switch (user.roleId) {
+        //    case UserRoleEnum.OnlineUser:
+        //        defaultLayout = LayoutEnum.OnlineLayout;
+        //        break;
+        //    // case UserRoleEnum.Admin:
+        //    //     defaultLayout = LayoutEnum.AdminLayout;
+        //    //     break;
+        //    // case UserRoleEnum.SeniorAdmin:
+        //    //     defaultLayout = LayoutEnum.SeniorAdminLayout;
+        //    //     break;
+        //    case UserRoleEnum.Inspector:
+        //    case UserRoleEnum.SeniorAdmin:
+        //    case UserRoleEnum.Admin:
+        //    default:
+        //        defaultLayout = LayoutEnum.DefaultLayout;
+        //        break;
+        //}
         //const result = LocalStorageEncryptedWithReturnValueSet(AppConfiguration.Setting().defaultLayoutStorageKey, defaultLayout.toString());
         //const result = LocalStorageSet(process.env.REACT_APP_localStorageEncryptKey||'-', defaultLayout.toString());
         const result = CookieSet(process.env.REACT_APP_localStorageEncryptKey || '-', defaultLayout.toString());
@@ -125,19 +124,19 @@ export const authenticateUser = (obj: AuthenticateUserRequest) => {
             //await sleep(2000);
             const params = { ...obj };
             // alert('alert ' + JSON.stringify(params))
-            let apiResponse: AuthenticateUserResponse = await defaultAxiosApiInstance.post("user/authenticate", params);
-            //onsole.log('authincate ' + JSON.stringify(apiResponse));
+            let apiResponse: AuthenticateUserResponse = await defaultAxiosApiInstance.post("ValidateLogin", params);
+            console.log('authincate ' + JSON.stringify(apiResponse));
             if (apiResponse != null && apiResponse.result != null && apiResponse.result != undefined) {
-                //alert("apiRespopnse" + JSON.stringify(apiRespopnse));
-                dispatch(setAuthenticateSuccess(
-                    {
-                        response: apiResponse.result,
-                        remember: obj.remember,
-                        token: apiResponse.token
-                    }));
+               //alert("apiRespopnse" + JSON.stringify(apiRespopnse));
+               dispatch(setAuthenticateSuccess(
+                   {
+                       response: apiResponse.result,
+                       remember: obj.remember,
+                       token: apiResponse.result.Token
+                   }));
             } else {
-                //alert('setAuthenticateFailed 11'+ JSON.stringify(apiRespopnse.errors));
-                dispatch(setAuthenticateFailed(apiResponse.errors));
+               //alert('setAuthenticateFailed 11'+ JSON.stringify(apiRespopnse.errors));
+               dispatch(setAuthenticateFailed(apiResponse.errors));
             }
         } catch (err: any) {
             // alert('setAuthenticateFailed '+ err);
