@@ -25,11 +25,11 @@ const languageStorageKey: string = process.env.REACT_APP_languageStorageKey;
 const userObject = Cookies.get(languageStorageKey)
   ? (JSON.parse(CookieGet(authenticatedUserStorageKey) || "{}") as UserResponse)
   : null;
-if (userObject === null || userObject === undefined) {
-  console.log("userObject-1", "empty");
-} else {
-  console.log("userObject-2", userObject);
-}
+// if (userObject === null || userObject === undefined) {
+//   console.log("userObject-1", "empty");
+// } else {
+//   console.log("userObject-2", userObject);
+// }
 const preloadedState = {
   user: {
     userAccount: userObject ?? null,

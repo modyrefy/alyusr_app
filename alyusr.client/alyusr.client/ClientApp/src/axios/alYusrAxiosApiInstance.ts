@@ -9,13 +9,13 @@ const AlYusrAxiosApiInstance = axios.create({
     process.env.REACT_APP_AlyusrApiEndpoint != null
       ? process.env.REACT_APP_AlyusrApiEndpoint.toString().trim()
       : "no-url",
-  headers: {
-    //Accept:"application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    "Access-Control-Allow-Headers":
-      "Origin, X-Requested-With, Content-Type, Accept",
-  },
+  // headers: {
+  //   //Accept:"application/json",
+  //   "Access-Control-Allow-Origin": "*",
+  //   "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+  //   "Access-Control-Allow-Headers":
+  //     "Origin, X-Requested-With, Content-Type, Accept",
+  // },
 });
 AlYusrAxiosApiInstance.interceptors.request.use(
   (config) => {
