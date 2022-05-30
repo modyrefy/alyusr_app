@@ -12,8 +12,8 @@ export const DefaultLayout: FC<{ children?: ReactNode | undefined }> = ({
   const { changeCulture } = useCulture("");
   //@ts-ignore
   const uiLanguage: string =
-    process.env.REACT_APP_languageStorageKey != null &&
-    process.env.REACT_APP_languageStorageKey != undefined
+    process.env.REACT_APP_languageStorageKey !== null &&
+    process.env.REACT_APP_languageStorageKey !== undefined
       ? process.env.REACT_APP_languageStorageKey
       : "";
   //@ts-ignore
@@ -27,20 +27,25 @@ export const DefaultLayout: FC<{ children?: ReactNode | undefined }> = ({
   }, [language]);
   return (
     <>
-      <table>
+      <table style={{ width: "100%" }}>
         <tbody>
-          <React.Fragment>
-            <tr>
-              <td></td>
-              <td>{<LayoutHeader />}</td>
-            </tr>
-            <tr>
-              <td colSpan={2}>{children}</td>
-            </tr>
-            <tr>
-              <td colSpan={2}>{<LayoutFooter />}</td>
-            </tr>
-          </React.Fragment>
+          <tr>
+            <td>{<LayoutHeader />}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table style={{ width: "100%" }}>
+        <tbody>
+          <tr>
+            <td>{children}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table style={{ width: "100%" }}>
+        <tbody>
+          <tr>
+            <td>{<LayoutFooter />}</td>
+          </tr>
         </tbody>
       </table>
     </>

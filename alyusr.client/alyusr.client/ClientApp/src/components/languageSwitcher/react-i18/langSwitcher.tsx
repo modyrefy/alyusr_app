@@ -37,16 +37,13 @@ const LangSwitcherReactI18: FC<{}> = () => {
       <table>
         <tbody>
           <tr>
-            <td>React-I18</td>
-          </tr>
-          <tr>
             <td>
               <select
                 value={i18n.language}
                 onChange={handleLanguageSelect}
                 defaultValue={language}
               >
-                <option value="ar-AE">AR</option>
+                <option value="ar-AE">Ar</option>
                 <option value="en-US">EN</option>
               </select>
             </td>

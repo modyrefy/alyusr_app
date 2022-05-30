@@ -1,5 +1,6 @@
 ﻿import axios from "axios";
 import { FC, useEffect } from "react";
+import { LoginForm } from "../../components/authentication/loginForm";
 import { AuthenticateUser } from "../../serviceBroker/alYusrApiServiceBroker";
 export const HomePage: FC<{}> = () => {
   useEffect(() => {
@@ -18,5 +19,9 @@ export const HomePage: FC<{}> = () => {
     //fillData1();
   }, []);
 
-  return <>Home Page </>;
+  return (
+    <>
+      <LoginForm />
+    </>
+  );
 };
