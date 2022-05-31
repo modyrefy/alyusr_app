@@ -16,7 +16,6 @@ export const AuthenticateUser = async (
     let url: string = `ValidateLogin?userName=${request.userName}&password=${request.password}`;
     var result: any = await AlYusrAxiosApiInstance.get(url);
     apiResponse = await AlYusrAxiosApiInstance.get(url);
-    console.log("url-11", process.env.REACT_APP_AlyusrApiEndpoint + url);
     console.log("apiResponse-11", result);
     return apiResponse;
   } catch (err) {

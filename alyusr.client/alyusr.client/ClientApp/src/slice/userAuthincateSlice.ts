@@ -7,6 +7,7 @@ import {
 import { LayoutEnum, UserRoleEnum } from "../models/enums/enumList";
 import { AuthenticateUserRequest } from "../models/user/authenticateUserRequest";
 import { CookieEncryptedSet, CookieSet } from "../utils/cookies/cookiesManager";
+import { AuthenticateUser } from "../serviceBroker/alYusrApiServiceBroker";
 
 const initialState: AuthenticateUserResponse = {
   result: null,
@@ -134,16 +135,15 @@ export const authenticateUser = (obj: AuthenticateUserRequest) => {
   return async (dispatch: any, getState: any) => {
     try {
       dispatch(setLoading(true));
-      //await sleep(2000);
       const params = { ...obj };
-      // alert('alert ' + JSON.stringify(params))
-      let apiResponse: AuthenticateUserResponse =
-        await defaultAxiosApiInstance.post("ValidateLogin", params);
+      let apiResponse: AuthenticateUserResponse = await AuthenticateUser(
+        params
+      );
       console.log("authincate " + JSON.stringify(apiResponse));
       if (
         apiResponse != null &&
-        apiResponse.result != null &&
-        apiResponse.result != undefined
+        apiResponse.result !== null &&
+        apiResponse.result !== undefined
       ) {
         //alert("apiRespopnse" + JSON.stringify(apiRespopnse));
         dispatch(
@@ -154,7 +154,6 @@ export const authenticateUser = (obj: AuthenticateUserRequest) => {
           })
         );
       } else {
-        //alert('setAuthenticateFailed 11'+ JSON.stringify(apiRespopnse.errors));
         dispatch(setAuthenticateFailed(apiResponse.errors));
       }
     } catch (err: any) {

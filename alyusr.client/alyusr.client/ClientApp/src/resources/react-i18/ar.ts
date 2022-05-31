@@ -5,4 +5,6 @@ export const TRANSLATIONS_AR = {
   "login.password": "كلمة المرور",
   "login.enter_password": "ادخل كلمة المرور",
   "login.submit": "تسجيل",
+  "login.userNameMissing": "ادخل اسم المستخدم",
+  "login.passwordMissing": "ادخل كلمة المرور",
 };

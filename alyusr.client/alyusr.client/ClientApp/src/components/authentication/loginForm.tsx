@@ -29,7 +29,7 @@ export const LoginForm: FC<{}> = () => {
       password: Yup.string().required(t("login.passwordMissing")),
     })
   );
-  const User: AuthenticateUserResponse = useSelector((state: any) => ({
+  const user: AuthenticateUserResponse = useSelector((state: any) => ({
     ...state.user,
   }));
 
@@ -38,16 +38,16 @@ export const LoginForm: FC<{}> = () => {
   //#endregion
   //#region functions region
   const handleUserAuthentication = async (request: AuthenticateUserRequest) => {
-    setLoading(true);
-
     try {
       // const result = await AuthenticateUser(request);
+
       dispatch(
-        authenticateUser({{
+        // @ts-ignore
+        authenticateUser({
           userName: request.userName,
           password: request.password,
           remember: true,
-        }})
+        })
       );
       // setValidationErrors(result.errors);
       // if (
@@ -73,42 +73,43 @@ export const LoginForm: FC<{}> = () => {
     onReset: (values) => {},
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      await authenticateUser(values);
+      await handleUserAuthentication(values);
     },
   });
   //#endregion
   //#region useEffect region
   useEffect(() => {
     if (
-      User &&
-      User.errors !== null &&
-      User.errors !== undefined &&
-      User.errors.length !== 0
+      user &&
+      user.errors !== null &&
+      user.errors !== undefined &&
+      user.errors.length !== 0
     ) {
       window.scrollTo(0, 0);
     }
-    if (User.isAuthenticated) {
+    if (user.isAuthenticated) {
       //props.history.push("/");
       navigate("/product");
     }
   }, []);
   useEffect(() => {
     if (
-      User &&
-      User.errors !== null &&
-      User.errors !== undefined &&
-      User.errors.length !== 0
+      user &&
+      user.errors !== null &&
+      user.errors !== undefined &&
+      user.errors.length !== 0
     ) {
+      alert("errror");
       window.scrollTo(0, 0);
     }
-    if (User.isAuthenticated) {
+    if (user.isAuthenticated) {
       navigate("/product");
     }
-  }, [User.isAuthenticated, User.errors]);
+  }, [user.isAuthenticated, user.errors]);
   //#endregion
   return (
     <>
-      {loading && <LoadingBox />}
+      {user.isLoading && <LoadingBox />}
       <form className="form-signin" onSubmit={formik.handleSubmit}>
         <h3 className="h3 mb-3 font-weight-normal">Sign In</h3>
         <div className="mb-3">

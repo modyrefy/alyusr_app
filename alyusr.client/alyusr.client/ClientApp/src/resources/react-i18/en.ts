@@ -5,4 +5,6 @@ export const TRANSLATIONS_EN = {
   "login.password": "password",
   "login.enter_password": "enter password",
   "login.submit": "submit",
+  "login.userNameMissing": "enter user name",
+  "login.passwordMissing": "enter password",
 };

@@ -9,13 +9,12 @@ const AlYusrAxiosApiInstance = axios.create({
     process.env.REACT_APP_AlyusrApiEndpoint != null
       ? process.env.REACT_APP_AlyusrApiEndpoint.toString().trim()
       : "no-url",
-  // headers: {
-  //   //Accept:"application/json",
-  //   "Access-Control-Allow-Origin": "*",
-  //   "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-  //   "Access-Control-Allow-Headers":
-  //     "Origin, X-Requested-With, Content-Type, Accept",
-  // },
+  headers: {
+    //"Access-Control-Allow-Origin": "*",
+    //   "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    //   "Access-Control-Allow-Headers":
+    //     "Origin, X-Requested-With, Content-Type, Accept",
+  },
 });
 AlYusrAxiosApiInstance.interceptors.request.use(
   (config) => {
@@ -43,6 +42,8 @@ AlYusrAxiosApiInstance.interceptors.request.use(
 );
 AlYusrAxiosApiInstance.interceptors.response.use(
   (response) => {
+    // @ts-ignore
+    alert();
     return response.data;
   },
   (error) => {
@@ -65,9 +66,9 @@ AlYusrAxiosApiInstance.interceptors.response.use(
         if (
           error.response !== null &&
           error.response.data !== null &&
-          error.response.data.Errors !== null &&
+          error.response.data.errors !== null &&
           error.response.data.errors !== undefined &&
-          error.response.data.errors.length != 0
+          error.response.data.errors.length !== 0
         ) {
           error.response.data.errors.map((err: any) => {
             errors.push({
