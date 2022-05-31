@@ -7,6 +7,8 @@ import { LoadingBox } from "../box/loadingBox";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthenticateUserResponse } from "../../models/user/authenticateUserResponse";
 import { useNavigate } from "react-router-dom";
+import { ValidationError } from "../../models/validation/error";
+import { authenticateUser } from "../../slice/userAuthincateSlice";
 
 export const LoginForm: FC<{}> = () => {
   //#region variables region
@@ -18,6 +20,9 @@ export const LoginForm: FC<{}> = () => {
   //#region state region
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationError[] | undefined
+  >(undefined);
   const [validationSchema, setValidationSchema] = useState(
     Yup.object({
       userName: Yup.string().required(t("login.userNameMissing")),
@@ -32,7 +37,34 @@ export const LoginForm: FC<{}> = () => {
   let navigate = useNavigate();
   //#endregion
   //#region functions region
-  const authenticateUser = async (request: AuthenticateUserRequest) => {};
+  const handleUserAuthentication = async (request: AuthenticateUserRequest) => {
+    setLoading(true);
+
+    try {
+      // const result = await AuthenticateUser(request);
+      dispatch(
+        authenticateUser({{
+          userName: request.userName,
+          password: request.password,
+          remember: true,
+        }})
+      );
+      // setValidationErrors(result.errors);
+      // if (
+      //   result != null &&
+      //   result.errors !== null &&
+      //   result.errors !== undefined &&
+      //   result.errors.length !== 0
+      // ) {
+      //   window.scrollTo(0, 0);
+      // }
+      setLoading(false);
+    } catch (err: any) {
+      setLoading(false);
+      setValidationErrors(err);
+      window.scrollTo(0, 0);
+    }
+  };
   //#endregion
   //#region formik region
   const formik = useFormik({
@@ -103,7 +135,7 @@ export const LoginForm: FC<{}> = () => {
           </label>
           <input
             id="password"
-            name="login"
+            name="password"
             type="password"
             className="form-control"
             placeholder={t("login.enter_password")}
