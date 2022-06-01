@@ -10,11 +10,11 @@ import { CookieEncryptedSet, CookieSet } from "../utils/cookies/cookiesManager";
 import { AuthenticateUser } from "../serviceBroker/alYusrApiServiceBroker";
 
 const initialState: AuthenticateUserResponse = {
-  result: null,
+  Result: null,
   userToken: null,
   isLoading: false,
   isAuthenticated: false,
-  errors: [],
+  Errors: [],
 };
 
 const slice = createSlice({
@@ -37,23 +37,21 @@ const slice = createSlice({
         CookieSet(
           process.env.REACT_APP_authenticatedTokenStorageKey ||
             "authenticationToken",
-          JSON.stringify(token)
+          token
         );
-        CookieEncryptedSet(
+        CookieSet(
           process.env.REACT_APP_authenticatedUserStorageKey ||
             "authenticationUser",
           JSON.stringify(response)
         );
-        // LocalStorageSet(process.env.REACT_APP_authenticatedTokenStorageKey||'authenticationToken', JSON.stringify(token));
-        // LocalStorageEncryptedSet(process.env.REACT_APP_authenticatedUserStorageKey||'authenticationUser', JSON.stringify(response));
       }
       return {
         ...state,
-        result: response, //action.payload,
+        Result: response, //action.payload,
         userToken: token,
         isLoading: false,
         isAuthenticated: true,
-        errors: [],
+        Errors: [],
       };
     },
     setIntegrationAuthenticateSuccess: (state, action) => {
@@ -63,7 +61,7 @@ const slice = createSlice({
       CookieSet(process.env.REACT_APP_authenticatedTokenStorageKey, token);
       return {
         ...state,
-        result: null, //action.payload,
+        Result: null, //action.payload,
         userToken: token,
         isLoading: false,
         isAuthenticated: true,
@@ -75,17 +73,17 @@ const slice = createSlice({
         ...state,
         isLoading: false,
         isAuthenticated: false,
-        errors: action.payload,
+        Errors: action.payload,
       };
     },
     setAuthenticationReset: (state, action) => {
       return {
         ...state,
-        result: null,
+        Result: null,
         isLoading: false,
         isAuthenticated: false,
         redirectUrl: "/inspection/unAuthenticated",
-        errors: [],
+        Rrrors: [],
       };
     },
   },
@@ -142,19 +140,20 @@ export const authenticateUser = (obj: AuthenticateUserRequest) => {
       console.log("authincate " + JSON.stringify(apiResponse));
       if (
         apiResponse != null &&
-        apiResponse.result !== null &&
-        apiResponse.result !== undefined
+        apiResponse.Result !== null &&
+        apiResponse.Result !== undefined
       ) {
         //alert("apiRespopnse" + JSON.stringify(apiRespopnse));
         dispatch(
           setAuthenticateSuccess({
-            response: apiResponse.result,
+            response: apiResponse.Result,
             remember: obj.remember,
-            token: apiResponse.result.Token,
+            token: apiResponse.Result.Token,
           })
         );
       } else {
-        dispatch(setAuthenticateFailed(apiResponse.errors));
+        console.log("apiResponse.Errors " + JSON.stringify(apiResponse.Errors));
+        dispatch(setAuthenticateFailed(apiResponse.Errors));
       }
     } catch (err: any) {
       // alert('setAuthenticateFailed '+ err);

@@ -9,6 +9,7 @@ import { AuthenticateUserResponse } from "../../models/user/authenticateUserResp
 import { useNavigate } from "react-router-dom";
 import { ValidationError } from "../../models/validation/error";
 import { authenticateUser } from "../../slice/userAuthincateSlice";
+import { MessageBox } from "../box/messageBox";
 
 export const LoginForm: FC<{}> = () => {
   //#region variables region
@@ -19,10 +20,6 @@ export const LoginForm: FC<{}> = () => {
   //#endregion
   //#region state region
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<
-    ValidationError[] | undefined
-  >(undefined);
   const [validationSchema, setValidationSchema] = useState(
     Yup.object({
       userName: Yup.string().required(t("login.userNameMissing")),
@@ -49,19 +46,7 @@ export const LoginForm: FC<{}> = () => {
           remember: true,
         })
       );
-      // setValidationErrors(result.errors);
-      // if (
-      //   result != null &&
-      //   result.errors !== null &&
-      //   result.errors !== undefined &&
-      //   result.errors.length !== 0
-      // ) {
-      //   window.scrollTo(0, 0);
-      // }
-      setLoading(false);
     } catch (err: any) {
-      setLoading(false);
-      setValidationErrors(err);
       window.scrollTo(0, 0);
     }
   };
@@ -81,9 +66,9 @@ export const LoginForm: FC<{}> = () => {
   useEffect(() => {
     if (
       user &&
-      user.errors !== null &&
-      user.errors !== undefined &&
-      user.errors.length !== 0
+      user.Errors !== null &&
+      user.Errors !== undefined &&
+      user.Errors.length !== 0
     ) {
       window.scrollTo(0, 0);
     }
@@ -93,23 +78,28 @@ export const LoginForm: FC<{}> = () => {
     }
   }, []);
   useEffect(() => {
+    console.log(" user.Errors", user);
     if (
       user &&
-      user.errors !== null &&
-      user.errors !== undefined &&
-      user.errors.length !== 0
+      user.Errors !== null &&
+      user.Errors !== undefined &&
+      user.Errors.length !== 0
     ) {
-      alert("errror");
       window.scrollTo(0, 0);
     }
     if (user.isAuthenticated) {
       navigate("/product");
     }
-  }, [user.isAuthenticated, user.errors]);
+  }, [user.isAuthenticated, user.Errors]);
   //#endregion
   return (
     <>
       {user.isLoading && <LoadingBox />}
+
+      {user != null &&
+        user.Errors !== null &&
+        user.Errors !== undefined &&
+        user.Errors.length !== 0 && <MessageBox errors={user.Errors} />}
       <form className="form-signin" onSubmit={formik.handleSubmit}>
         <h3 className="h3 mb-3 font-weight-normal">Sign In</h3>
         <div className="mb-3">

@@ -43,21 +43,20 @@ AlYusrAxiosApiInstance.interceptors.request.use(
 AlYusrAxiosApiInstance.interceptors.response.use(
   (response) => {
     // @ts-ignore
-    alert();
     return response.data;
   },
   (error) => {
-    let result: ResponseBase<GeneralResponse> = { result: undefined };
+    let result: ResponseBase<GeneralResponse> = { Result: undefined };
     if (error.response) {
       if (error.response.status === 401) {
         result = {
           recordCount: 0,
           token: "",
-          result: {},
-          errors: [
+          Result: {},
+          Errors: [
             {
-              messageEn: "authorization failed please try to login",
-              messageAr: "فشل فى تسجيل الدخول الرجاء اعادة المحاولة مرة اخرى",
+              MessageEn: "authorization failed please try to login",
+              MessageAr: "فشل فى تسجيل الدخول الرجاء اعادة المحاولة مرة اخرى",
             },
           ],
         };
@@ -72,8 +71,8 @@ AlYusrAxiosApiInstance.interceptors.response.use(
         ) {
           error.response.data.errors.map((err: any) => {
             errors.push({
-              messageAr: err.errorMessage,
-              messageEn: err.errorMessage,
+              MessageAr: err.errorMessage,
+              MessageEn: err.errorMessage,
             });
           });
         } else {
@@ -81,18 +80,18 @@ AlYusrAxiosApiInstance.interceptors.response.use(
         result = {
           recordCount: 0,
           token: "",
-          result: {},
-          errors: errors,
+          Result: {},
+          Errors: errors,
         };
       }
     } else {
       if (error.message) {
         result = {
           recordCount: 0,
-          result: {},
+          Result: {},
           token: "",
-          errors: [
-            { messageAr: error.errorMessage, messageEn: error.errorMessage },
+          Errors: [
+            { MessageAr: error.errorMessage, MessageEn: error.errorMessage },
           ],
         };
         return result;
@@ -100,11 +99,11 @@ AlYusrAxiosApiInstance.interceptors.response.use(
         result = {
           recordCount: 0,
           token: "",
-          result: {},
-          errors: [
+          Result: {},
+          Errors: [
             {
-              messageEn: "error occurred  try again later",
-              messageAr: "حدث خطأ حاول مرة أخرى في وقت لاحق",
+              MessageEn: "error occurred  try again later",
+              MessageAr: "حدث خطأ حاول مرة أخرى في وقت لاحق",
             },
           ],
         };

@@ -22,7 +22,7 @@ const authenticatedUserStorageKey: string =
   process.env.REACT_APP_authenticatedUserStorageKey;
 // @ts-ignore
 const languageStorageKey: string = process.env.REACT_APP_languageStorageKey;
-const userObject = Cookies.get(languageStorageKey)
+const userObject = Cookies.get(authenticatedUserStorageKey)
   ? (JSON.parse(CookieGet(authenticatedUserStorageKey) || "{}") as UserResponse)
   : null;
 // if (userObject === null || userObject === undefined) {
@@ -38,7 +38,7 @@ const preloadedState = {
       : null,
     isLoading: false,
     isAuthenticated: Cookies.get(authenticatedTokenStorageKey) ? true : false,
-    errors: [],
+    Errors: [],
   },
   lang: {
     language: "ar-AE",

@@ -14,9 +14,9 @@ export const AuthenticateUser = async (
   };
   try {
     let url: string = `ValidateLogin?userName=${request.userName}&password=${request.password}`;
-    var result: any = await AlYusrAxiosApiInstance.get(url);
+    //var result: any = await AlYusrAxiosApiInstance.get(url);
     apiResponse = await AlYusrAxiosApiInstance.get(url);
-    console.log("apiResponse-11", result);
+    //console.log("apiResponse-11", result);
     return apiResponse;
   } catch (err) {
     alert(err);

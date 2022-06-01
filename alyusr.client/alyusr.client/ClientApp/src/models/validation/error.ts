@@ -1,6 +1,6 @@
 ﻿export interface ValidationError {
-    errorNumbr?: number
-    messageAr: string
-    messageEn: string
-    messageType?: number
+  ErrorNumbr?: number;
+  MessageAr: string;
+  MessageEn: string;
+  MessageType?: number;
 }
