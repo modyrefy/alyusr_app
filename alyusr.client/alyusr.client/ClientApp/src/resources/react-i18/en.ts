@@ -7,4 +7,5 @@ export const TRANSLATIONS_EN = {
   "login.submit": "submit",
   "login.userNameMissing": "enter user name",
   "login.passwordMissing": "enter password",
+  "logout.button": "logout",
 };

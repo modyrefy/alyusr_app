@@ -7,12 +7,12 @@ import { LoadingBox } from "../box/loadingBox";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthenticateUserResponse } from "../../models/user/authenticateUserResponse";
 import { useNavigate } from "react-router-dom";
-import { ValidationError } from "../../models/validation/error";
 import { authenticateUser } from "../../slice/userAuthincateSlice";
 import { MessageBox } from "../box/messageBox";
 
 export const LoginForm: FC<{}> = () => {
   //#region variables region
+  const redirectUrlPage: string = "/dashboardPage";
   const initialValues: AuthenticateUserRequest = {
     userName: "",
     password: "",
@@ -74,7 +74,7 @@ export const LoginForm: FC<{}> = () => {
     }
     if (user.isAuthenticated) {
       //props.history.push("/");
-      navigate("/product");
+      navigate(redirectUrlPage);
     }
   }, []);
   useEffect(() => {
@@ -88,7 +88,7 @@ export const LoginForm: FC<{}> = () => {
       window.scrollTo(0, 0);
     }
     if (user.isAuthenticated) {
-      navigate("/product");
+      navigate(redirectUrlPage);
     }
   }, [user.isAuthenticated, user.Errors]);
   //#endregion

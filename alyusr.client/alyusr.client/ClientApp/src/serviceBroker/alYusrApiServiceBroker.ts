@@ -4,7 +4,7 @@ import AlYusrAxiosApiInstance from "../axios/alYusrAxiosApiInstance";
 //#region lookup
 
 //#endregion
-//#region get
+//#region post
 export const AuthenticateUser = async (
   request: AuthenticateUserRequest
 ): Promise<AuthenticateUserResponse> => {
@@ -24,6 +24,6 @@ export const AuthenticateUser = async (
   return apiResponse;
 };
 //#endregion
-//#region post
+//#region get
 
 //#endregion

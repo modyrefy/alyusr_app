@@ -1,14 +1,13 @@
-﻿export { CookieSet as CookieSet } from "./cookies/cookiesManager";
-export { CookieEncryptedSet as CookieEncryptedSet } from "./cookies/cookiesManager";
-export { CookieGet as CookieGet } from "./cookies/cookiesManager";
-export { CookieEncryptedGet as CookieEncryptedGet } from "./cookies/cookiesManager";
+﻿export { CookieSet } from "./cookies/cookiesManager";
+export { CookieEncryptedSet } from "./cookies/cookiesManager";
+export { CookieGet } from "./cookies/cookiesManager";
+export { CookieEncryptedGet } from "./cookies/cookiesManager";
 
+export { getLanguageCode } from "./localization/localizationManager";
+export { getLanguageKey } from "./localization/localizationManager";
+export { GetLanguagesTitle } from "./localization/localizationManager";
+export { isArabicCurrentLanguage } from "./localization/localizationManager";
 
-
-export { getLanguageCode as getLanguageCode } from "./localization/localizationManager";
-export { getLanguageKey as getLanguageKey } from "./localization/localizationManager";
-export { GetLanguagesTitle as GetLanguagesTitle } from "./localization/localizationManager";
-export { isArabicCurrentLanguage as isArabicCurrentLanguage } from "./localization/localizationManager";
-//export { LocalStorageGet as LocalStorageGet } from "./localStorage/LocalStorageManager";
+export { isUserAuthenticated } from "./common/commonManager";
 //export { LocalStorageSet as LocalStorageSet } from "./localStorage/LocalStorageManager";
 //export { LocalStorageClear as LocalStorageClear } from "./localStorage/LocalStorageManager";
