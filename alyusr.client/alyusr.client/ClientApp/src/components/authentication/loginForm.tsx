@@ -12,7 +12,7 @@ import { MessageBox } from "../box/messageBox";
 
 export const LoginForm: FC<{}> = () => {
   //#region variables region
-  const redirectUrlPage: string = "/dashboardPage";
+  const redirectUrlPage: string = "/dashboard";
   const initialValues: AuthenticateUserRequest = {
     userName: "",
     password: "",

@@ -5,6 +5,8 @@ import { LangSwitcherReactI18 } from "../../languageSwitcher/react-i18/langSwitc
 
 export const LayoutHeader: FC<any> = () => {
   const { t } = useTranslation();
+  const tokenKey = process.env.REACT_APP_authenticatedTokenStorageKey || "xx";
+  const userKey = process.env.REACT_APP_authenticatedUserStorageKey || "xx";
   return (
     <>
       <LangSwitcherReactI18 />
@@ -12,11 +14,8 @@ export const LayoutHeader: FC<any> = () => {
         {isUserAuthenticated() && (
           <button
             onClick={() => {
-              CookieSet(
-                process.env.REACT_APP_languageStorageKey || "xx",
-                "aa",
-                -10
-              );
+              CookieSet(tokenKey, "", -10);
+              CookieSet(userKey, "", -10);
             }}
           >
             {t("logout.button")}

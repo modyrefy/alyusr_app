@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./i18n";
-import { LanguageList } from "../../../resources/localization/languages";
 import { CookieGet, CookieSet } from "../../../utils";
 
 const languageLocalStorageName = process.env.REACT_APP_languageStorageKey;
