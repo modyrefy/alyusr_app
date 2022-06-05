@@ -5,6 +5,7 @@ import { UserRegisterationRequest } from "../models/user/userRegisterationReques
 import { UserRegisterationResponse } from "../models/user/userRegisterationResponse";
 import { ResponseBase } from "../models/base/responseBase";
 import { resolveTypeReferenceDirective } from "typescript";
+import axios from "axios";
 //#region lookup
 
 //#endregion
@@ -28,7 +29,7 @@ export const AuthenticateUser = async (
   return apiResponse;
 };
 export const registerUser = async (
-  request: UserRegisterationRequest
+  request: UserRegisterationResponse
 ): Promise<UserRegisterationResponse> => {
   let apiResponse: UserRegisterationResponse = {
     User_Name: "",
@@ -44,9 +45,17 @@ export const registerUser = async (
     rowState: 0,
   };
   try {
-    let url: string = `saveuser`;
-    apiResponse = await AlYusrAxiosApiInstance.post(url, { ...request });
-    console.log("apiResponse-11", apiResponse);
+    let url: string = `${process.env.REACT_APP_AlyusrApiEndpoint}SaveUser`;
+    console.log("request-SaveUser", { ...request });
+    const headers = {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    };
+
+    apiResponse = await axios.post(url, { ...request }, { headers });
+    // apiResponse = await AlYusrAxiosApiInstance.post(url, { ...request });
+    //apiResponse = await AlYusrAxiosApiInstance.post(url, request);
+    console.log("SaveUser", apiResponse);
     return apiResponse;
   } catch (err) {
     alert(err);

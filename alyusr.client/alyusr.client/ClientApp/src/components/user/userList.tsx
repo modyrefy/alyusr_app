@@ -22,7 +22,7 @@ export const UsersList: FC<{ request: UserRegisterationResponse[] }> = ({
           <tbody>
             {request.map((row, index) => {
               return (
-                <tr>
+                <tr key={`user-${index}`}>
                   <td>{index + 1}</td>
                   <td>
                     <label>{row.User_Name}</label>

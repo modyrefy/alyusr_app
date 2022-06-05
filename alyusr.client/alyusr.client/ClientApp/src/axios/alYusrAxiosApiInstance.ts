@@ -18,6 +18,7 @@ const AlYusrAxiosApiInstance = axios.create({
 });
 AlYusrAxiosApiInstance.interceptors.request.use(
   (config) => {
+    console.log("config", config);
     // @ts-ignore
     const token: string | null = null; // CookieGet(process.env.REACT_APP_authenticatedTokenStorageKey);
     if (config.url?.includes("file/upload")) {
@@ -29,6 +30,10 @@ AlYusrAxiosApiInstance.interceptors.request.use(
       // @ts-ignore
       config.headers["Accept"] = "application/json";
     }
+    if (config.method === "post") {
+      // @ts-ignore
+      config.headers["Access-Control-Allow-Origin"] = "*";
+    }
     if (token) {
       // @ts-ignore
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -37,6 +42,7 @@ AlYusrAxiosApiInstance.interceptors.request.use(
   },
   (error) => {
     // Do something with request error
+    console.log("request-axios-error", error);
     return Promise.reject(error);
   }
 );
@@ -46,6 +52,7 @@ AlYusrAxiosApiInstance.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    console.log("response-axios-error", error);
     let result: ResponseBase<GeneralResponse> = { Result: undefined };
     if (error.response) {
       if (error.response.status === 401) {

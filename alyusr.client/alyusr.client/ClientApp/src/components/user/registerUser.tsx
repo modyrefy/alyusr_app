@@ -5,13 +5,15 @@ import { UserRegisterationResponse } from "../../models/user/userRegisterationRe
 import { useTranslation } from "react-i18next";
 import { Accordion } from "react-bootstrap";
 
-export const RegisterUser: FC<{}> = () => {
+export const RegisterUser: FC<{
+  onSubmit: any | null;
+}> = ({ onSubmit }) => {
   //#region varaibles
   const initialValues: UserRegisterationResponse = {
-    User_Name: "",
-    Name_EN: "",
-    Name: "",
-    Password: "",
+    User_Name: "1",
+    Name_EN: "1",
+    Name: "1",
+    Password: "1",
     IsAdmin: false,
     JWT: undefined,
     ID: 0,
@@ -32,6 +34,12 @@ export const RegisterUser: FC<{}> = () => {
     })
   );
   //#endregion
+  //#region function
+  const handleSubmit = async (data: UserRegisterationResponse) => {
+    onSubmit(data);
+  };
+  //#en
+  //#endregion
   //#region formik
   const formik = useFormik({
     initialValues: initialValues,
@@ -41,7 +49,7 @@ export const RegisterUser: FC<{}> = () => {
     },
     onSubmit: async (values) => {
       console.log("values", values);
-      //await handleSearch(values);
+      await handleSubmit(values);
     },
   });
   //#endregion
@@ -115,8 +123,8 @@ export const RegisterUser: FC<{}> = () => {
                 <div className="col-md-4">
                   <label className="form-label">{t("user.isAdmin")}</label>
                   <input
-                    id="Name"
-                    name="Name"
+                    id="IsAdmin"
+                    name="IsAdmin"
                     type="checkbox"
                     className="form-control"
                     checked={formik.values.IsAdmin}
@@ -124,7 +132,6 @@ export const RegisterUser: FC<{}> = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
-                  {formik.errors.Name ? <>{formik.errors.Name}</> : null}
                 </div>
               </div>
             </Accordion.Body>
