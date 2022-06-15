@@ -4,52 +4,27 @@ import { GeneralResponse } from "../models/base/generalResponse";
 import { ValidationError } from "../models/validation/error";
 import { CookieGet } from "../utils";
 // @ts-ignore
-const AlYusrAxiosApiInstance = axios.create({
-  baseURL:
-    process.env.REACT_APP_AlyusrApiEndpoint != null
-      ? process.env.REACT_APP_AlyusrApiEndpoint.toString().trim()
-      : "no-url",
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    "Access-Control-Allow-Headers":
-      "Origin, X-Requested-With, Content-Type, Accept",
-  },
+const TestAxiosApiInstance = axios.create({
+  baseURL: process.env.REACT_APP_TestApiEndpoint,
+  // headers: {
+  //   Accept: "application/json",
+  //   "Content-Type": "application/json",
+  //   "Access-Control-Allow-Origin": "*",
+  //   "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+  //   "Access-Control-Allow-Headers":
+  //     "Origin, X-Requested-With, Content-Type, Accept",
+  // },
 });
-AlYusrAxiosApiInstance.interceptors.request.use(
-  (config) => {
-    console.log(
-      "REACT_APP_AlyusrApiEndpoint",
-      process.env.REACT_APP_AlyusrApiEndpoint
-    );
-    // @ts-ignore
-    const token: string | null = null; // CookieGet(process.env.REACT_APP_authenticatedTokenStorageKey);
-    if (config.url?.includes("file/upload")) {
-      // @ts-ignore
-      config.headers["content-type"] = "multipart/form-data";
-    } else {
-      // @ts-ignore
-      config.headers["content-type"] = "application/json";
-      // @ts-ignore
-      config.headers["Accept"] = "application/json";
-    }
-    if (config.method === "post") {
-      // @ts-ignore
-      config.headers["Access-Control-Allow-Origin"] = "*";
-    }
-    if (token) {
-      // @ts-ignore
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
+TestAxiosApiInstance.interceptors.request.use(
+  (request) => {
+    return request;
   },
   (error) => {
     // Do something with request error
-    console.log("request-axios-error", error);
     return Promise.reject(error);
   }
 );
-AlYusrAxiosApiInstance.interceptors.response.use(
+TestAxiosApiInstance.interceptors.response.use(
   (response) => {
     // @ts-ignore
     return response.data;
@@ -123,4 +98,4 @@ AlYusrAxiosApiInstance.interceptors.response.use(
     return result;
   }
 );
-export default AlYusrAxiosApiInstance;
+export default TestAxiosApiInstance;

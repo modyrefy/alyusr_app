@@ -2,10 +2,12 @@ import { AuthenticateUserRequest } from "../models/user/authenticateUserRequest"
 import { AuthenticateUserResponse } from "../models/user/authenticateUserResponse";
 import AlYusrAxiosApiInstance from "../axios/alYusrAxiosApiInstance";
 import { UserRegisterationRequest } from "../models/user/userRegisterationRequest";
-import { UserRegisterationResponse } from "../models/user/userRegisterationResponse";
+import {
+  testModel,
+  UserRegisterationResponse,
+} from "../models/user/userRegisterationResponse";
 import { ResponseBase } from "../models/base/responseBase";
-import { resolveTypeReferenceDirective } from "typescript";
-import axios from "axios";
+import testAxiosApiInstance from "../axios/testAxiosApiInstance";
 //#region lookup
 
 //#endregion
@@ -45,16 +47,16 @@ export const registerUser = async (
     rowState: 0,
   };
   try {
-    let url: string = `${process.env.REACT_APP_AlyusrApiEndpoint}SaveUser`;
-    console.log("request-SaveUser", { ...request });
-    const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-    };
-
-    apiResponse = await axios.post(url, { ...request }, { headers });
-    // apiResponse = await AlYusrAxiosApiInstance.post(url, { ...request });
-    //apiResponse = await AlYusrAxiosApiInstance.post(url, request);
+    let url: string = `SaveUser`; //`Authentication`; //`${process.env.REACT_APP_AlyusrApiEndpoint}SaveUser`
+    console.log("13");
+    // var tRequest: any = {
+    //   UserName: "1",
+    //   // Password: "1",
+    //   UserId: 1,
+    // };
+    // var result = await testAxiosApiInstance.post(url, { ...tRequest });
+    //console.log("tRequest11", result);
+    apiResponse = await AlYusrAxiosApiInstance.post(url, { ...request });
     console.log("SaveUser", apiResponse);
     return apiResponse;
   } catch (err) {
