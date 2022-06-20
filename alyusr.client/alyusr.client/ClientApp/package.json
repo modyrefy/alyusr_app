@@ -23,6 +23,7 @@
     "i18next-localstorage-cache": "^1.1.1",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "js-cookie": "^3.0.1",
+    "lodash.isequal": "^4.5.0",
     "react": "^18.1.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
@@ -63,6 +64,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
     "@types/js-cookie": "^3.0.2",
+    "@types/lodash.isequal": "^4.5.6",
     "@types/react-redux": "^7.1.24",
     "@types/react-router-dom": "^5.3.3",
     "@types/redux-logger": "^3.0.9"

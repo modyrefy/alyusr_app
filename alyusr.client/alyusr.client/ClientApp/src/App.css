@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+input.error_en {
+  border-width: 1px 1px 1px 10px;
+  border-color: red;
+}
+
+input.error_ar {
+  border-width: 1px 10px 1px 1px;
+  border-color: red;
+}
+
+input.success_en {
+  border-width: 1px 1px 1px 10px;
+  border-color: green;
+}
+input.success_ar {
+  border-width: 1px 10px 1px 1px;
+  border-color: green;
+}

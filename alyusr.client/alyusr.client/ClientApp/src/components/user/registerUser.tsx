@@ -4,16 +4,18 @@ import { FC, useState } from "react";
 import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
 import { useTranslation } from "react-i18next";
 import { Accordion } from "react-bootstrap";
-
+import deepEqual from "lodash.isequal";
+import { isArabicCurrentLanguage } from "../../utils";
 export const RegisterUser: FC<{
   onSubmit: any | null;
 }> = ({ onSubmit }) => {
   //#region varaibles
+  const cssPrefix: string = isArabicCurrentLanguage() ? "_ar" : "_en";
   const initialValues: UserRegisterationResponse = {
-    User_Name: "1",
-    Name_EN: "1",
-    Name: "1",
-    Password: "1",
+    User_Name: "",
+    Name_EN: "",
+    Name: "",
+    Password: "",
     IsAdmin: false,
     JWT: undefined,
     ID: 0,
@@ -71,10 +73,16 @@ export const RegisterUser: FC<{
               id="User_Name"
               name="User_Name"
               type="text"
-              className="form-control"
               value={formik.values.User_Name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={
+                formik.errors.User_Name
+                  ? `text-input error${cssPrefix}`
+                  : formik.values.User_Name
+                  ? `text-input success${cssPrefix}`
+                  : `text-input error${cssPrefix}`
+              }
             />
             {formik.errors.User_Name ? <>{formik.errors.User_Name}</> : null}
           </div>
@@ -84,10 +92,17 @@ export const RegisterUser: FC<{
               id="Password"
               name="Password"
               type="text"
-              className="form-control"
+              // className="form-control"
               value={formik.values.Password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={
+                formik.errors.Password
+                  ? `text-input error${cssPrefix}`
+                  : formik.values.Password
+                  ? `text-input success${cssPrefix}`
+                  : `text-input error${cssPrefix}`
+              }
             />
             {formik.errors.Password ? <>{formik.errors.Password}</> : null}
           </div>
@@ -97,10 +112,17 @@ export const RegisterUser: FC<{
               id="Name_EN"
               name="Name_EN"
               type="text"
-              className="form-control"
+              //className="form-control"
               value={formik.values.Name_EN}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={
+                formik.errors.Name_EN
+                  ? `text-input error${cssPrefix}`
+                  : formik.values.Name_EN
+                  ? `text-input success${cssPrefix}`
+                  : `text-input error${cssPrefix}`
+              }
             />
             {formik.errors.Name_EN ? <>{formik.errors.Name_EN}</> : null}
           </div>
@@ -110,10 +132,17 @@ export const RegisterUser: FC<{
               id="Name"
               name="Name"
               type="text"
-              className="form-control"
+              // className="form-control"
               value={formik.values.Name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={
+                formik.errors.Name
+                  ? `text-input error${cssPrefix}`
+                  : formik.values.Name
+                  ? `text-input success${cssPrefix}`
+                  : `text-input error${cssPrefix}`
+              }
             />
             {formik.errors.Name ? <>{formik.errors.Name}</> : null}
           </div>
