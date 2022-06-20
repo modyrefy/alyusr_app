@@ -82,7 +82,8 @@ const slice = createSlice({
         Result: null,
         isLoading: false,
         isAuthenticated: false,
-        redirectUrl: "/inspection/unAuthenticated",
+        userToken: null,
+        redirectUrl: "/",
         Rrrors: [],
       };
     },
@@ -177,6 +178,8 @@ export const authenticateIntegrationUser =
   (token: string) => async (dispatch: any, getstate: any) => {
     dispatch(setIntegrationAuthenticateSuccess({ token: token }));
   };
-export const logoutUser = () => async (dispatch: any, getstate: any) => {
-  dispatch(setAuthenticationReset(null));
+export const logoutUser = () => {
+  return async (dispatch: any, getstate: any) => {
+    dispatch(setAuthenticationReset(null));
+  };
 };

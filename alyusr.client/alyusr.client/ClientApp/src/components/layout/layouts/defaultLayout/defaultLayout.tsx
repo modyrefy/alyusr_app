@@ -21,7 +21,6 @@ export const DefaultLayout: FC<{ children?: ReactNode | undefined }> = ({
     ? CookieGet(uiLanguage)
     : process.env.REACT_APP_defaultUiLanguage;
   useEffect(() => {
-    console.log("current_language", language);
     //@ts-ignore
     changeCulture(language);
   }, [language]);

@@ -20,4 +20,6 @@ export const TRANSLATIONS_EN = {
   "user.register.nameen.missing": "enter name en",
   "user.register.name.missing": "enter name ar",
   "user.register.password.missing": "enter password",
+  "process.Completed": "process completed successfully",
+  "process.failed": "error occurred",
 };

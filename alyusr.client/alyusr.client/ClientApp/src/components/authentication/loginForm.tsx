@@ -64,6 +64,7 @@ export const LoginForm: FC<{}> = () => {
   //#endregion
   //#region useEffect region
   useEffect(() => {
+    console.log("user_result", user);
     if (
       user &&
       user.Errors !== null &&

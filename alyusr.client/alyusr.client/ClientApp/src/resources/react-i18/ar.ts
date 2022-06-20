@@ -15,9 +15,11 @@ export const TRANSLATIONS_AR = {
   "user.isAdmin": "مدير النظام",
   "user.registerUser": "تسجيل مستخدم",
   "user.userList": "قائمة المستخدمين",
-  "user.reset": "Reset",
+  "user.reset": "اعادة",
   "user.register.username.missing": "enter user name",
   "user.register.nameen.missing": "enter name en",
   "user.register.name.missing": "enter name ar",
   "user.register.password.missing": "enter password",
+  "process.Completed": "اكتملت العملية بنجاح",
+  "process.failed": "حدث خطأ",
 };
