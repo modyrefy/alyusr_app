@@ -1,13 +1,9 @@
 import { AuthenticateUserRequest } from "../models/user/authenticateUserRequest";
 import { AuthenticateUserResponse } from "../models/user/authenticateUserResponse";
 import AlYusrAxiosApiInstance from "../axios/alYusrAxiosApiInstance";
-import { UserRegisterationRequest } from "../models/user/userRegisterationRequest";
-import {
-  testModel,
-  UserRegisterationResponse,
-} from "../models/user/userRegisterationResponse";
+import { UserRegisterationResponse } from "../models/user/userRegisterationResponse";
 import { ResponseBase } from "../models/base/responseBase";
-import testAxiosApiInstance from "../axios/testAxiosApiInstance";
+import _ from "lodash";
 //#region lookup
 
 //#endregion
@@ -47,15 +43,7 @@ export const registerUser = async (
     rowState: 0,
   };
   try {
-    let url: string = `SaveUser`; //`Authentication`; //`${process.env.REACT_APP_AlyusrApiEndpoint}SaveUser`
-    console.log("13");
-    // var tRequest: any = {
-    //   UserName: "1",
-    //   // Password: "1",
-    //   UserId: 1,
-    // };
-    // var result = await testAxiosApiInstance.post(url, { ...tRequest });
-    //console.log("tRequest11", result);
+    let url: string = `SaveUser`;
     apiResponse = await AlYusrAxiosApiInstance.post(url, { ...request });
     console.log("SaveUser", apiResponse);
     return apiResponse;
@@ -65,7 +53,6 @@ export const registerUser = async (
   return apiResponse;
 };
 export const getUsers = async (): Promise<UserRegisterationResponse[]> => {
-  //let apiResponse: UserRegisterationResponse[] = [];
   try {
     let url: string = `GetUsersList`;
     const result: ResponseBase<UserRegisterationResponse[]> =
@@ -76,5 +63,30 @@ export const getUsers = async (): Promise<UserRegisterationResponse[]> => {
     alert(err);
   }
   return [];
+};
+export const getUserInformation = async (
+  id: number
+): Promise<UserRegisterationResponse | null> => {
+  try {
+    let url: string = `GetUsersList`;
+    const result: ResponseBase<UserRegisterationResponse[]> =
+      await AlYusrAxiosApiInstance.get(url);
+    // @ts-ignore
+    var responseObject =
+      result !== null &&
+      result !== undefined &&
+      result.Result != null &&
+      result.Result?.length !== 0
+        ? _.find(result.Result, (o) => {
+            return o.ID === id;
+          })
+        : null;
+    return responseObject !== null && responseObject !== undefined
+      ? responseObject
+      : null;
+  } catch (err) {
+    alert(err);
+  }
+  return null;
 };
 //#endregion

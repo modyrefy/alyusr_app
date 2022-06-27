@@ -8,6 +8,7 @@ import { ToastModel } from "../../models/common/toastModel";
 import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
 import { ValidationError } from "../../models/validation/error";
 import {
+  getUserInformation,
   getUsers,
   registerUser,
 } from "../../serviceBroker/alYusrApiServiceBroker";
@@ -19,6 +20,7 @@ export const UsersPage: FC<{}> = () => {
     []
   );
   const [users, setUsers] = useState<UserRegisterationResponse[]>([]);
+  const [user, setUser] = useState<UserRegisterationResponse | null>(null);
   const [toastModel, setToastModel] = useState<ToastModel>({
     show: false,
     variant: "Primary",
@@ -33,6 +35,10 @@ export const UsersPage: FC<{}> = () => {
   }, []);
   //#endregion
   //#region function
+  const getUser = async (id: number) => {
+    console.log(id);
+    setUser(await getUserInformation(id));
+  };
   const getAllUsers = async () => {
     setLoading(true);
     const userList = await getUsers();
@@ -65,7 +71,6 @@ export const UsersPage: FC<{}> = () => {
       await getAllUsers();
     } catch (err: any) {
       setLoading(false);
-      // setToastModel({ show: false });
       setValidationErrors(err);
       window.scrollTo(0, 0);
     }
@@ -77,8 +82,15 @@ export const UsersPage: FC<{}> = () => {
       {loading && <LoadingBox />}
       {<MessageBox errors={validationErrors} />}
       {toastModel.show && <ToastBox request={toastModel} />}
-      <RegisterUser onSubmit={handleSubmitUser} />
-      {users && users.length !== 0 && <UsersList request={users} />}
+      <RegisterUser onSubmit={handleSubmitUser} userRequestObject={user} />
+      {users && users.length !== 0 && (
+        <UsersList
+          request={users}
+          onSelect={(o: number) => {
+            getUser(o);
+          }}
+        />
+      )}
     </>
   );
   //#endregion

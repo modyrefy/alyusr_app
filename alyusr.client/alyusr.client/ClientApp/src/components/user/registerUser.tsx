@@ -1,17 +1,17 @@
-import { Field, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FC, useState } from "react";
 import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
 import { useTranslation } from "react-i18next";
-import { Accordion } from "react-bootstrap";
-import deepEqual from "lodash.isequal";
 import { isArabicCurrentLanguage } from "../../utils";
+import { request } from "https";
 export const RegisterUser: FC<{
+  userRequestObject?: UserRegisterationResponse | null;
   onSubmit: any | null;
-}> = ({ onSubmit }) => {
+}> = ({ userRequestObject, onSubmit }) => {
   //#region varaibles
   const cssPrefix: string = isArabicCurrentLanguage() ? "_ar" : "_en";
-  const initialValues: UserRegisterationResponse = {
+  const initialValues: UserRegisterationResponse = userRequestObject ?? {
     User_Name: "",
     Name_EN: "",
     Name: "",
@@ -146,13 +146,12 @@ export const RegisterUser: FC<{
             />
             {formik.errors.Name ? <>{formik.errors.Name}</> : null}
           </div>
-          <div className="col-md-4">
-            <label className="form-label">{t("user.isAdmin")}</label>
+          <div className="col-md-4 ">
+            <label className="form-label">{t("user.isAdmin")} </label>
             <input
               id="IsAdmin"
               name="IsAdmin"
               type="checkbox"
-              className="form-control"
               checked={formik.values.IsAdmin}
               //value={formik.values.IsAdmin ? 1 : 0}
               onChange={formik.handleChange}

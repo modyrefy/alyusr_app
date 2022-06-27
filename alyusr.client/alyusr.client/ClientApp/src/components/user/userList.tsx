@@ -2,11 +2,14 @@ import { FC } from "react";
 import Accordion from "react-bootstrap/esm/Accordion";
 import { useTranslation } from "react-i18next";
 import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
-export const UsersList: FC<{ request: UserRegisterationResponse[] }> = ({
-  request,
-}) => {
+export const UsersList: FC<{
+  request: UserRegisterationResponse[];
+  onSelect?: any | null;
+}> = ({ request, onSelect }) => {
   //#region state
   const { t } = useTranslation();
+  //#endregion
+  //#region funcation
   //#endregion
   //#region html
   return (
@@ -36,6 +39,25 @@ export const UsersList: FC<{ request: UserRegisterationResponse[] }> = ({
                         </td>
                         <td>
                           <label>{row.User_Name}</label>
+                        </td>
+                        <td>
+                          <label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                onSelect(row.ID);
+                                //console.log("user-id", row.ID);
+                              }}
+                            >
+                              update
+                            </button>
+                          </label>
+                        </td>
+                        <td>
+                          <label>detele</label>
+                        </td>
+                        <td>
+                          <label>premission</label>
                         </td>
                       </tr>
                     );
