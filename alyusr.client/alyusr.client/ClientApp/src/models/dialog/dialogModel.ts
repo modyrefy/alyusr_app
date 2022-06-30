@@ -4,3 +4,8 @@ export interface DialogModel {
   title?: string;
   key?: string;
 }
+export interface ActionButtons {
+  text: string;
+  onClick: any;
+  variant?: string | null;
+}
