@@ -1,16 +1,21 @@
 import { FC, useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { LoadingBox } from "../../components/box/loadingBox";
 import { MessageBox } from "../../components/box/messageBox";
+import { ModelDialogBox } from "../../components/box/modelDialogBox";
 import { ToastBox } from "../../components/box/toastBox";
 import { RegisterUser, UsersList } from "../../components/user";
 import { ToastModel } from "../../models/common/toastModel";
-import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
+import { ActionTypeEnum } from "../../models/enums/enumList";
+import {
+  RequestAction,
+  UserRegisterationResponse,
+} from "../../models/user/userRegisterationResponse";
 import { ValidationError } from "../../models/validation/error";
 import {
   getUserInformation,
   getUsers,
-  registerUser,
 } from "../../serviceBroker/alYusrApiServiceBroker";
 export const UsersPage: FC<{}> = () => {
   //#region state
@@ -25,6 +30,8 @@ export const UsersPage: FC<{}> = () => {
     show: false,
     variant: "Primary",
   });
+  const [showAddUserModel, setShowAddUserModel] = useState(false);
+  const [showModifyUserModel, setShowModifyUserModel] = useState(false);
   //#endregion
   //#region useEffect
   useEffect(() => {
@@ -35,9 +42,23 @@ export const UsersPage: FC<{}> = () => {
   }, []);
   //#endregion
   //#region function
-  const getUser = async (id: number) => {
-    console.log(id);
-    setUser(await getUserInformation(id));
+  const getUserDetails = async (request: RequestAction) => {
+    var user = await getUserInformation(request.id);
+
+    switch (request.action) {
+      case ActionTypeEnum.Update:
+        // @ts-ignore
+        user.Password = "";
+        // @ts-ignore
+        user.rowState = 2;
+        setUser(user);
+        setShowModifyUserModel(true);
+        break;
+      case ActionTypeEnum.Delete:
+        break;
+      case ActionTypeEnum.GrantPremissions:
+        break;
+    }
   };
   const getAllUsers = async () => {
     setLoading(true);
@@ -45,34 +66,36 @@ export const UsersPage: FC<{}> = () => {
     setUsers(userList);
     setLoading(false);
   };
-  const handleSubmitUser = async (request: UserRegisterationResponse) => {
-    try {
-      //setToastModel({ show: false });
-      setLoading(true);
-      const res = await registerUser(request);
-      setValidationErrors(
-        res != null && res.Errors != null && res.Errors.length !== 0
-          ? res.Errors
-          : []
-      );
-      setToastModel({
-        body:
-          res != null && res.Errors != null && res.Errors.length !== 0
-            ? t("process.failed")
-            : t("process.Completed"),
-        variant:
-          res != null && res.Errors != null && res.Errors.length !== 0
-            ? "Danger"
-            : "Primary",
-        delayDuration: 3000,
-        show: true,
-      });
-      setLoading(false);
-      await getAllUsers();
-    } catch (err: any) {
-      setLoading(false);
-      setValidationErrors(err);
-      window.scrollTo(0, 0);
+  const handleAddUserComplete = async (status: boolean) => {
+    setShowAddUserModel(false);
+    switch (status) {
+      case true:
+        setLoading(true);
+        await getAllUsers();
+        let toastObjectToastModel = toastModel;
+        toastObjectToastModel.show = true;
+        toastObjectToastModel.body = "process completed successfully";
+        setLoading(false);
+        setToastModel(toastObjectToastModel);
+        break;
+      default:
+        break;
+    }
+  };
+  const handleModifyUserComplete = async (status: boolean) => {
+    setShowModifyUserModel(false);
+    switch (status) {
+      case true:
+        setLoading(true);
+        await getAllUsers();
+        let toastObjectToastModel = toastModel;
+        toastObjectToastModel.show = true;
+        toastObjectToastModel.body = "process completed successfully";
+        setLoading(false);
+        setToastModel(toastObjectToastModel);
+        break;
+      default:
+        break;
     }
   };
   //#endregion
@@ -82,12 +105,46 @@ export const UsersPage: FC<{}> = () => {
       {loading && <LoadingBox />}
       {<MessageBox errors={validationErrors} />}
       {toastModel.show && <ToastBox request={toastModel} />}
-      <RegisterUser onSubmit={handleSubmitUser} userRequestObject={user} />
+      {/* register user  */}
+      <ModelDialogBox
+        isModelVisible={showAddUserModel}
+        isCloseButtonVisible={false}
+        isHiddenEnabled={false}
+        onClose={() => {
+          setShowAddUserModel(false);
+        }}
+      >
+        <RegisterUser onComplete={handleAddUserComplete} />
+      </ModelDialogBox>
+      <Button
+        onClick={() => {
+          setShowAddUserModel(true);
+        }}
+      >
+        {t("user.Add")}
+      </Button>
+      {/* modify user  */}
+      <ModelDialogBox
+        isModelVisible={showModifyUserModel}
+        isCloseButtonVisible={false}
+        isHiddenEnabled={true}
+        onClose={() => {
+          setShowModifyUserModel(false);
+        }}
+      >
+        <RegisterUser
+          request={user}
+          onComplete={handleModifyUserComplete}
+          options={{ isUserNameModifiable: false }}
+        />
+      </ModelDialogBox>
+
+      {/* user list */}
       {users && users.length !== 0 && (
         <UsersList
           request={users}
-          onSelect={(o: number) => {
-            getUser(o);
+          onEventRaise={(o: RequestAction) => {
+            getUserDetails(o);
           }}
         />
       )}

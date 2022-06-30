@@ -1,8 +1,20 @@
+import { ActionTypeEnum } from "../enums/enumList";
 import { ValidationError } from "../validation/error";
 
 export interface testModel {
   UserId: number;
   UserName: string;
+}
+export interface RequestAction {
+  id: number;
+  action: ActionTypeEnum;
+}
+export interface UserRegisterationOptionsRequest {
+  isUserNameModifiable?: boolean;
+  isPasswordModifiable?: boolean;
+  isNameArModifiable?: boolean;
+  isNameEnModifiable?: boolean;
+  isAdminModifiable?: boolean;
 }
 export interface UserRegisterationResponse {
   User_Name: string;

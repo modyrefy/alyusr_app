@@ -1,5 +1,4 @@
 ﻿import { FC, ReactNode, useEffect } from "react";
-import * as React from "react";
 import { LayoutHeader } from "../../header/layoutHeader";
 import { LayoutFooter } from "../../footer/layoutFooter";
 import useCulture from "../../../../hooks/useCulture";
@@ -27,21 +26,15 @@ export const DefaultLayout: FC<{ children?: ReactNode | undefined }> = ({
   return (
     <>
       <table style={{ width: "100%" }}>
-        <tbody>
+        <thead>
           <tr>
             <td>{<LayoutHeader />}</td>
           </tr>
-        </tbody>
-      </table>
-      <table style={{ width: "100%" }}>
+        </thead>
         <tbody>
           <tr>
             <td>{children}</td>
           </tr>
-        </tbody>
-      </table>
-      <table style={{ width: "100%" }}>
-        <tbody>
           <tr>
             <td>{<LayoutFooter />}</td>
           </tr>

@@ -11,6 +11,7 @@ export const TRANSLATIONS_EN = {
   "user.userName": "user Name",
   "user.nameAr": "Name(Ar)",
   "user.nameEn": "Name(En)",
+  "user.name": "Name",
   "user.password": "password",
   "user.isAdmin": "is Admin",
   "user.registerUser": "Register User",
@@ -22,4 +23,9 @@ export const TRANSLATIONS_EN = {
   "user.register.password.missing": "enter password",
   "process.Completed": "process completed successfully",
   "process.failed": "error occurred",
+  CloseButton: "Close",
+  "user.Add": "Add",
+  "user.Modify": "Modify",
+  "user.Delete": "Delete",
+  "user.Premissions": "Premissions",
 };

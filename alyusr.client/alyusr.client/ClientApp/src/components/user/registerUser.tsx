@@ -1,17 +1,32 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FC, useState } from "react";
-import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
+import {
+  UserRegisterationOptionsRequest,
+  UserRegisterationResponse,
+} from "../../models/user/userRegisterationResponse";
 import { useTranslation } from "react-i18next";
 import { isArabicCurrentLanguage } from "../../utils";
-import { request } from "https";
+import { Button } from "react-bootstrap";
+import { registerUser } from "../../serviceBroker/alYusrApiServiceBroker";
+import { ValidationError } from "../../models/validation/error";
+import { LoadingBox } from "../box/loadingBox";
+import { MessageBox } from "../box/messageBox";
 export const RegisterUser: FC<{
-  userRequestObject?: UserRegisterationResponse | null;
-  onSubmit: any | null;
-}> = ({ userRequestObject, onSubmit }) => {
+  request?: UserRegisterationResponse | null;
+  options?: UserRegisterationOptionsRequest | null;
+  onComplete: any | null;
+}> = ({ request, options, onComplete }) => {
   //#region varaibles
+  options = options ?? {
+    isUserNameModifiable: true,
+    isPasswordModifiable: true,
+    isNameArModifiable: true,
+    isNameEnModifiable: true,
+    isAdminModifiable: true,
+  };
   const cssPrefix: string = isArabicCurrentLanguage() ? "_ar" : "_en";
-  const initialValues: UserRegisterationResponse = userRequestObject ?? {
+  const initialValues: UserRegisterationResponse = request ?? {
     User_Name: "",
     Name_EN: "",
     Name: "",
@@ -27,18 +42,48 @@ export const RegisterUser: FC<{
   //#endregion
   //#region state
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>(
+    []
+  );
   const [validationSchema, setValidationSchema] = useState(
     Yup.object({
-      User_Name: Yup.string().required(t("user.register.username.missing")),
-      Name_EN: Yup.string().required(t("user.register.nameen.missing")),
-      Name: Yup.string().required(t("user.register.name.missing")),
-      Password: Yup.string().required(t("user.register.password.missing")),
+      User_Name: options.isUserNameModifiable
+        ? Yup.string().required(t("user.register.username.missing"))
+        : Yup.string(),
+      Name_EN: options.isNameEnModifiable
+        ? Yup.string().required(t("user.register.nameen.missing"))
+        : Yup.string(),
+      Name: options.isNameArModifiable
+        ? Yup.string().required(t("user.register.name.missing"))
+        : Yup.string(),
+      Password: options.isPasswordModifiable
+        ? Yup.string().required(t("user.register.password.missing"))
+        : Yup.string(),
     })
   );
   //#endregion
   //#region function
-  const handleSubmit = async (data: UserRegisterationResponse) => {
-    onSubmit(data);
+  const handleSubmit = async (request: UserRegisterationResponse) => {
+    try {
+      setLoading(true);
+      //throw " I will not close if you click outside me. Don't even try to press escape key.";
+      const res = await registerUser(request);
+
+      // onComplete(true);
+      // return;
+      if (res != null && res.Errors != null && res.Errors.length !== 0) {
+        setValidationErrors(res.Errors);
+        setLoading(false);
+      } else {
+        setValidationErrors([]);
+        onComplete(true);
+      }
+    } catch (err: any) {
+      setLoading(false);
+      const errors: ValidationError[] = [{ MessageAr: err, MessageEn: err }];
+      setValidationErrors(errors);
+    }
   };
   //#en
   //#endregion
@@ -49,6 +94,7 @@ export const RegisterUser: FC<{
     enableReinitialize: true,
     onReset: (values) => {
       console.log("reset");
+      onComplete(false);
     },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       await handleSubmit(values);
@@ -59,19 +105,19 @@ export const RegisterUser: FC<{
   //#region html
   return (
     <>
+      {loading && <LoadingBox />}
+      {<MessageBox errors={validationErrors} />}
       <form onSubmit={formik.handleSubmit}>
-        {/* <Accordion defaultActiveKey="0" flush className="insp-accordiona-panel">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>
-              <>{t("user.registerUser")}</>
-            </Accordion.Header>
-            <Accordion.Body> */}
+        <p>id: {initialValues.ID}</p>
         <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">{t("user.userName")}</label>
+          </div>
+          <div className="col-md-4">
             <input
               id="User_Name"
               name="User_Name"
+              readOnly={!options.isUserNameModifiable}
               type="text"
               value={formik.values.User_Name}
               onChange={formik.handleChange}
@@ -86,8 +132,12 @@ export const RegisterUser: FC<{
             />
             {formik.errors.User_Name ? <>{formik.errors.User_Name}</> : null}
           </div>
+        </div>
+        <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">{t("user.password")}</label>
+          </div>
+          <div className="col-md-4">
             <input
               id="Password"
               name="Password"
@@ -106,8 +156,12 @@ export const RegisterUser: FC<{
             />
             {formik.errors.Password ? <>{formik.errors.Password}</> : null}
           </div>
+        </div>
+        <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">{t("user.nameEn")}</label>
+          </div>
+          <div className="col-md-4">
             <input
               id="Name_EN"
               name="Name_EN"
@@ -126,13 +180,16 @@ export const RegisterUser: FC<{
             />
             {formik.errors.Name_EN ? <>{formik.errors.Name_EN}</> : null}
           </div>
+        </div>
+        <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">{t("user.nameAr")}</label>
+          </div>
+          <div className="col-md-4">
             <input
               id="Name"
               name="Name"
               type="text"
-              // className="form-control"
               value={formik.values.Name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -146,8 +203,12 @@ export const RegisterUser: FC<{
             />
             {formik.errors.Name ? <>{formik.errors.Name}</> : null}
           </div>
-          <div className="col-md-4 ">
+        </div>
+        <div className="row g-3">
+          <div className="col-md-4">
             <label className="form-label">{t("user.isAdmin")} </label>
+          </div>
+          <div className="col-md-4 ">
             <input
               id="IsAdmin"
               name="IsAdmin"
@@ -159,23 +220,20 @@ export const RegisterUser: FC<{
             />
           </div>
         </div>
-        {/* </Accordion.Body> */}
         <div className="accordion-footer">
           <div className="col-md-12 d-flex justify-content-end">
-            <button type="submit" className="btn btn-orange">
+            <Button type="submit" className="btn btn-orange">
               {t("user.registerUser")}
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               className="btn btn-orange"
               onClick={formik.handleReset}
             >
               {t("user.reset")}
-            </button>
+            </Button>
           </div>
         </div>
-        {/* </Accordion.Item>
-        </Accordion> */}
       </form>
     </>
   );

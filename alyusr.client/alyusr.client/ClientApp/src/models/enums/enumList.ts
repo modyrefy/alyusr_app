@@ -7,6 +7,13 @@ export enum LayoutEnum {
   GuestLayout = 5,
   OnlineLayout = 6,
 }
+export enum ActionTypeEnum {
+  None = 0,
+  Add = 1,
+  Update = 2,
+  Delete = 3,
+  GrantPremissions = 4,
+}
 export enum RowState {
   None = 0,
   Add = 1,
