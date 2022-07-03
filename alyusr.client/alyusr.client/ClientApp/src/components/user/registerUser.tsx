@@ -66,12 +66,10 @@ export const RegisterUser: FC<{
   //#region function
   const handleSubmit = async (request: UserRegisterationResponse) => {
     try {
+      alert("xxx");
       setLoading(true);
-      //throw " I will not close if you click outside me. Don't even try to press escape key.";
+      // //throw " I will not close if you click outside me. Don't even try to press escape key.";
       const res = await registerUser(request);
-
-      // onComplete(true);
-      // return;
       if (res != null && res.Errors != null && res.Errors.length !== 0) {
         setValidationErrors(res.Errors);
         setLoading(false);
@@ -222,10 +220,15 @@ export const RegisterUser: FC<{
         </div>
         <div className="accordion-footer">
           <div className="col-md-12 d-flex justify-content-end">
-            <Button type="submit" className="btn btn-orange">
+            <Button
+              type="submit"
+              className="btn btn-orange"
+              variant="outline-primary"
+            >
               {t("user.registerUser")}
             </Button>
             <Button
+              variant="outline-primary"
               type="button"
               className="btn btn-orange"
               onClick={formik.handleReset}

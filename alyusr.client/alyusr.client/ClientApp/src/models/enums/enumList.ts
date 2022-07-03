@@ -1,3 +1,11 @@
+export enum PremissionTypeEnum {
+  None = 0,
+  Save = 1,
+  Update = 2,
+  Delete = 3,
+  Search = 4,
+  Tablet = 5,
+}
 export enum LayoutEnum {
   None = 0,
   DefaultLayout = 1,

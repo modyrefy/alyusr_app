@@ -9,6 +9,14 @@ export interface RequestAction {
   id: number;
   action: ActionTypeEnum;
 }
+export interface UserDeleteResponse {
+  Errors: ValidationError[];
+  Result: {
+    Result: boolean;
+    Errors: ValidationError[];
+  };
+  Status: number;
+}
 export interface UserRegisterationOptionsRequest {
   isUserNameModifiable?: boolean;
   isPasswordModifiable?: boolean;

@@ -6,8 +6,9 @@ import { UserRegisterationResponse } from "../../models/user/userRegisterationRe
 import { isArabicCurrentLanguage } from "../../utils";
 export const UsersList: FC<{
   request: UserRegisterationResponse[];
-  onEventRaise?: any | null;
-}> = ({ request, onEventRaise }) => {
+  onActionEvent?: any | null;
+  onCompleteEvent?: any | null;
+}> = ({ request, onActionEvent, onCompleteEvent }) => {
   //#region varaible
   const isArabic: boolean = isArabicCurrentLanguage();
   //#endregion
@@ -46,9 +47,9 @@ export const UsersList: FC<{
                   <td>
                     <Button
                       type="button"
+                      variant="outline-primary"
                       onClick={() => {
-                        //onSelect({ id: row.ID, type: "update" });
-                        onEventRaise({
+                        onActionEvent({
                           id: row.ID,
                           action: ActionTypeEnum.Update,
                         });
@@ -60,9 +61,10 @@ export const UsersList: FC<{
                   <td>
                     <Button
                       type="button"
+                      variant="outline-primary"
                       onClick={() => {
                         //onSelect({ id: row.ID, type: "update" });
-                        onEventRaise({
+                        onActionEvent({
                           id: row.ID,
                           action: ActionTypeEnum.Delete,
                         });
@@ -74,9 +76,10 @@ export const UsersList: FC<{
                   <td>
                     <Button
                       type="button"
+                      variant="outline-primary"
                       onClick={() => {
                         //onSelect({ id: row.ID, type: "update" });
-                        onEventRaise({
+                        onActionEvent({
                           id: row.ID,
                           action: ActionTypeEnum.GrantPremissions,
                         });

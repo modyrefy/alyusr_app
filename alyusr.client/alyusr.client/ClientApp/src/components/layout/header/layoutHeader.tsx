@@ -1,8 +1,8 @@
 import React, { FC } from "react";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AuthenticateUserResponse } from "../../../models/user/authenticateUserResponse";
 import { logoutUser } from "../../../slice/userAuthincateSlice";
 import { CookieSet, isUserAuthenticated } from "../../../utils";
 import { LangSwitcherReactI18 } from "../../languageSwitcher/react-i18/langSwitcher";
@@ -28,19 +28,49 @@ export const LayoutHeader: FC<any> = () => {
       <LangSwitcherReactI18 />
       <p>
         {isUserAuthenticated() && (
-          <button
-            onClick={async () => {
-              CookieSet(tokenKey, "", -10);
-              CookieSet(userKey, "", -10);
-              dispatch(
-                // @ts-ignore
-                logoutUser()
-              );
-              navigate("/");
-            }}
-          >
-            {t("logout.button")}
-          </button>
+          <>
+            <Navbar bg="light" expand="lg">
+              <Container>
+                <Navbar.Brand href="/">Alyuser</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav>
+                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link href="users">Users</Nav.Link>
+                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                      <NavDropdown.Item href="#action/3.1">
+                        Action
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="#action/3.2">
+                        Another action
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="#action/3.3">
+                        Something
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item href="#action/3.4">
+                        Separated link
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </Nav>
+                  <Button
+                    variant="outline-primary"
+                    onClick={async () => {
+                      CookieSet(tokenKey, "", -10);
+                      CookieSet(userKey, "", -10);
+                      dispatch(
+                        // @ts-ignore
+                        logoutUser()
+                      );
+                      navigate("/");
+                    }}
+                  >
+                    {t("logout.button")}
+                  </Button>
+                </Navbar.Collapse>
+              </Container>
+            </Navbar>
+          </>
         )}
       </p>
     </>

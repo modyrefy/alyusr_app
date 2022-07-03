@@ -6,36 +6,31 @@ import { isArabicCurrentLanguage } from "../../utils";
 export const ModelDialogBox: FC<{
   isModelVisible: boolean;
   isCloseButtonVisible?: boolean;
-  isHiddenEnabled?: boolean;
   title?: string;
-  onClose?: any;
+  onCloseEvent?: any;
   children?: ReactNode | undefined;
 }> = ({
   isModelVisible = false,
   isCloseButtonVisible = true,
-  isHiddenEnabled = true,
   title,
-  onClose,
+  onCloseEvent,
   children,
 }) => {
   //#region state
   const { t } = useTranslation();
   //#endregion
   //#region varaible
+  const isHiddenEnabled: boolean =
+    onCloseEvent !== null && onCloseEvent !== undefined ? true : false;
   const isArabic: boolean = isArabicCurrentLanguage();
   const direction: string = isArabic ? "rtl" : "ltr";
-  //#endregion
-  //#region function
-  const handleClose = () => {
-    onClose();
-  };
   //#endregion
   return (
     <>
       <Modal
         show={isModelVisible}
         onHide={() => {
-          isHiddenEnabled && handleClose();
+          isHiddenEnabled && onCloseEvent();
         }}
       >
         <Modal.Header dir={direction}>
@@ -44,7 +39,7 @@ export const ModelDialogBox: FC<{
         <Modal.Body dir={direction}>{children}</Modal.Body>
         {isCloseButtonVisible && (
           <Modal.Footer dir={direction}>
-            <Button variant="primary" onClick={() => handleClose()}>
+            <Button variant="primary" onClick={() => onCloseEvent()}>
               {t("CloseButton")}
             </Button>
           </Modal.Footer>

@@ -1,9 +1,17 @@
 import { AuthenticateUserRequest } from "../models/user/authenticateUserRequest";
 import { AuthenticateUserResponse } from "../models/user/authenticateUserResponse";
 import AlYusrAxiosApiInstance from "../axios/alYusrAxiosApiInstance";
-import { UserRegisterationResponse } from "../models/user/userRegisterationResponse";
+import {
+  UserDeleteResponse,
+  UserRegisterationResponse,
+} from "../models/user/userRegisterationResponse";
 import { ResponseBase } from "../models/base/responseBase";
 import _ from "lodash";
+import {
+  Premission,
+  PremissionKeys,
+  UserPremission,
+} from "../models/user/useePermissionResponse";
 //#region lookup
 
 //#endregion
@@ -20,6 +28,25 @@ export const AuthenticateUser = async (
     //var result: any = await AlYusrAxiosApiInstance.get(url);
     apiResponse = await AlYusrAxiosApiInstance.get(url);
     //console.log("apiResponse-11", result);
+    return apiResponse;
+  } catch (err) {
+    alert(err);
+  }
+  return apiResponse;
+};
+export const deleteUser = async (id: number): Promise<UserDeleteResponse> => {
+  let apiResponse: UserDeleteResponse = {
+    Errors: [],
+    Result: {
+      Result: false,
+      Errors: [],
+    },
+    Status: 0,
+  };
+  try {
+    let url: string = `DeleteUser?id=${id}`;
+    apiResponse = await AlYusrAxiosApiInstance.post(url);
+    console.log("DeleteUser", apiResponse);
     return apiResponse;
   } catch (err) {
     alert(err);
@@ -46,6 +73,20 @@ export const registerUser = async (
     let url: string = `SaveUser`;
     apiResponse = await AlYusrAxiosApiInstance.post(url, { ...request });
     console.log("SaveUser", apiResponse);
+    return apiResponse;
+  } catch (err) {
+    alert(err);
+  }
+  return apiResponse;
+};
+export const SaveUserPremissions = async (
+  request: Premission[]
+): Promise<Premission[]> => {
+  let apiResponse: Premission[] = [];
+  try {
+    let url: string = `SaveUserPermissions`;
+    apiResponse = await AlYusrAxiosApiInstance.post(url, request);
+    console.log("SaveUserPremissions", apiResponse);
     return apiResponse;
   } catch (err) {
     alert(err);
@@ -88,5 +129,51 @@ export const getUserInformation = async (
     alert(err);
   }
   return null;
+};
+export const getUserPremission = async (id: number): Promise<Premission[]> => {
+  try {
+    let url: string = `GetUserPermission?userID=${id}&lang=1`;
+    const result: ResponseBase<UserPremission> =
+      await AlYusrAxiosApiInstance.get(url);
+    // const premissions: PremissionKeys[] = [
+    //   {
+    //     IDForm: 3,
+    //     NameAr: "IDForm_3",
+    //     NameEn: "IDForm_3",
+    //   },
+    //   {
+    //     IDForm: 55,
+    //     NameAr: "IDForm_55",
+    //     NameEn: "IDForm_55",
+    //   },
+    //   {
+    //     IDForm: 13,
+    //     NameAr: "IDForm_13",
+    //     NameEn: "IDForm_13",
+    //   },
+    //   {
+    //     IDForm: 162,
+    //     NameAr: "IDForm_162",
+    //     NameEn: "IDForm_162",
+    //   },
+    //   {
+    //     IDForm: 11155,
+    //     NameAr: "IDForm_11155",
+    //     NameEn: "IDForm_11155",
+    //   },
+    // ];
+
+    // var merged = _.merge(
+    //   _.keyBy(result.Result, "IDForm"),
+    //   _.keyBy(premissions, "IDForm")
+    // );
+    // @ts-ignore
+    console.log("sss", result.Result[0]);
+    // @ts-ignore
+    return result !== null && result !== undefined ? result.Result : [];
+  } catch (err) {
+    alert(err);
+  }
+  return [];
 };
 //#endregion
