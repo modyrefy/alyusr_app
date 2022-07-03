@@ -1,8 +1,7 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { ActionButtons } from "../../models/dialog/dialogModel";
 import { isArabicCurrentLanguage } from "../../utils";
-import { LoadingBox } from "./loadingBox";
 
 export const ConfirmModelDialogBox: FC<{
   isModelVisible: boolean;
@@ -12,7 +11,6 @@ export const ConfirmModelDialogBox: FC<{
   children?: ReactNode | undefined;
 }> = ({ isModelVisible, title, onCloseEvent, actions, children }) => {
   //#region state
-  const [loading, setLoading] = useState(false);
   //#endregion
   //#region varaible
   const isArabic: boolean = isArabicCurrentLanguage();
