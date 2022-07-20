@@ -5,8 +5,8 @@ export interface PremissionKeys {
   NameEn?: string;
 }
 export interface Premission {
-  NameAr?: string | null;
-  NameEn?: string | null;
+  Name?: string | null;
+  //NameEn?: string | null;
   Permission: number;
   IDForm: number;
   EnableSave: boolean;

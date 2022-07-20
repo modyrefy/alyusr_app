@@ -40,4 +40,10 @@ export const TRANSLATIONS_AR = {
   "button.save": "Save",
   "button.reset": "Reset",
   "button.cancel": "Cancel",
+  "setting.CompanyName": "اسم الشركة",
+  "setting.Phone": "الهاتف",
+  "setting.TextLogo": "نص الشعار",
+  "setting.LogoImage64": "صورة الشعار",
+  "setting.Save": "حفظ",
+  "setting.reset": "اعادة",
 };

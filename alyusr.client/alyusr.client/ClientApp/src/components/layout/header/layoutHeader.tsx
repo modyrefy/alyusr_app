@@ -36,13 +36,11 @@ export const LayoutHeader: FC<any> = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav>
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="users">Users</Nav.Link>
-                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#action/3.1">
-                        Action
-                      </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">
-                        Another action
+                    {/* <Nav.Link href="users">Users</Nav.Link> */}
+                    <NavDropdown title="Setting" id="basic-nav-dropdown">
+                      <NavDropdown.Item href="users">Users</NavDropdown.Item>
+                      <NavDropdown.Item href="/company/setting">
+                        Company-Settings
                       </NavDropdown.Item>
                       <NavDropdown.Item href="#action/3.3">
                         Something

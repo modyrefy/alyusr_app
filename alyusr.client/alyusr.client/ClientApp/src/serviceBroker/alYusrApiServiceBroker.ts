@@ -9,9 +9,9 @@ import { ResponseBase } from "../models/base/responseBase";
 import _ from "lodash";
 import {
   Premission,
-  PremissionKeys,
   UserPremission,
 } from "../models/user/useePermissionResponse";
+import { CompanySetting } from "../models/company/companySetting";
 //#region lookup
 
 //#endregion
@@ -130,9 +130,12 @@ export const getUserInformation = async (
   }
   return null;
 };
-export const getUserPremission = async (id: number): Promise<Premission[]> => {
+export const getUserPremission = async (
+  id: number,
+  isArabic: boolean
+): Promise<Premission[]> => {
   try {
-    let url: string = `GetUserPermission?userID=${id}&lang=1`;
+    let url: string = `GetUserPermission?userID=${id}&lang=${isArabic ? 1 : 2}`;
     const result: ResponseBase<UserPremission> =
       await AlYusrAxiosApiInstance.get(url);
     // const premissions: PremissionKeys[] = [
@@ -175,5 +178,35 @@ export const getUserPremission = async (id: number): Promise<Premission[]> => {
     alert(err);
   }
   return [];
+};
+//#endregion
+//#region setting
+export const getCompanySetting = async (): Promise<CompanySetting | null> => {
+  try {
+    let url: string = `GetCompanySettings`;
+    const result: ResponseBase<CompanySetting> =
+      await AlYusrAxiosApiInstance.get(url);
+    // @ts-ignore
+    return result !== null && result !== undefined ? result.Result : null;
+  } catch (err) {
+    alert(err);
+  }
+  return null;
+};
+export const SaveCompanySetting = async (
+  request: CompanySetting
+): Promise<ResponseBase<CompanySetting> | null> => {
+  try {
+    let url: string = `SaveCompanySetting`;
+    console.log("request_111", request);
+    const result: ResponseBase<CompanySetting> =
+      await AlYusrAxiosApiInstance.post(url, request);
+    console.log("result_111", result);
+    // @ts-ignore
+    return result;
+  } catch (err) {
+    alert(err);
+  }
+  return null;
 };
 //#endregion

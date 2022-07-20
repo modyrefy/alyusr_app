@@ -40,7 +40,7 @@ export const UserPremissions: FC<{
   //#endregion
   //#region function
   const getPremissions = async (id: number): Promise<Premission[]> => {
-    var premissions = await getUserPremission(id);
+    var premissions = await getUserPremission(id, isArabic);
     if (
       premissions !== null &&
       premissions !== undefined &&
@@ -221,7 +221,7 @@ export const UserPremissions: FC<{
                 <tr key={`premission-${index}`}>
                   <td>{index + 1}</td>
                   <td>
-                    <label>{isArabic ? row.ID : row.NameEn}</label>
+                    <label>{row.Name}</label>
                   </td>
                   <td>
                     <input

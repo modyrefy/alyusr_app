@@ -1,6 +1,7 @@
 ﻿import { MasterLayout } from "../../components/layout/masterLayout/masterLayout";
 import { IRouteBase } from "../../models/routes/iRouteBase";
 import { DashboardPage, ForbiddenPage, HomePage, UsersPage } from "../../pages";
+import { CompanySettingPage } from "../../pages/setting/companySettingPage";
 import { AuthenticatedRoute } from "../route/AuthenticatedRoute";
 
 export const DefaultRouteItems: IRouteBase[] = [
@@ -40,6 +41,17 @@ export const DefaultRouteItems: IRouteBase[] = [
       <AuthenticatedRoute>
         <MasterLayout>
           <UsersPage />
+        </MasterLayout>
+      </AuthenticatedRoute>
+    ),
+  },
+  {
+    key: "companySettingPage",
+    path: "/company/setting",
+    content: (
+      <AuthenticatedRoute>
+        <MasterLayout>
+          <CompanySettingPage />
         </MasterLayout>
       </AuthenticatedRoute>
     ),

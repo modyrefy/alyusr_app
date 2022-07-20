@@ -66,7 +66,6 @@ export const RegisterUser: FC<{
   //#region function
   const handleSubmit = async (request: UserRegisterationResponse) => {
     try {
-      alert("xxx");
       setLoading(true);
       // //throw " I will not close if you click outside me. Don't even try to press escape key.";
       const res = await registerUser(request);
@@ -106,7 +105,7 @@ export const RegisterUser: FC<{
       {loading && <LoadingBox />}
       {<MessageBox errors={validationErrors} />}
       <form onSubmit={formik.handleSubmit}>
-        <p>id: {initialValues.ID}</p>
+        {/* <p>id: {initialValues.ID}</p> */}
         <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">{t("user.userName")}</label>

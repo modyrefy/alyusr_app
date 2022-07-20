@@ -40,4 +40,10 @@ export const TRANSLATIONS_EN = {
   "button.save": "Save",
   "button.reset": "Reset",
   "button.cancel": "Cancel",
+  "setting.CompanyName": "Company Name",
+  "setting.Phone": "Phone",
+  "setting.TextLogo": "Text Logo",
+  "setting.LogoImage64": "Logo Image",
+  "setting.Save": "Save",
+  "setting.reset": "Reset",
 };

@@ -1,0 +1,1 @@
+export { CompanySettingDetails } from "./companySettingDetails";
