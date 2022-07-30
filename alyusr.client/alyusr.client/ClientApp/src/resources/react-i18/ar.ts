@@ -46,4 +46,12 @@ export const TRANSLATIONS_AR = {
   "setting.LogoImage64": "صورة الشعار",
   "setting.Save": "حفظ",
   "setting.reset": "اعادة",
+  "unit.name": "الاسم",
+  "unit.isDefault": "افتراضى",
+  "unit.nameAr": "الاسم(ع)",
+  "unit.nameEn": "الاسم(ح)",
+  "unit.register.nameEn.missing": "ادخل الاسم(ح)",
+  "unit.register.nameAr.missing": "ادخل الاسم(ع)",
+  "entity.register": "تسجيل",
+  "entity.reset": "اعادة",
 };

@@ -46,4 +46,12 @@ export const TRANSLATIONS_EN = {
   "setting.LogoImage64": "Logo Image",
   "setting.Save": "Save",
   "setting.reset": "Reset",
+  "unit.name": "Name",
+  "unit.isDefault": "Default",
+  "unit.nameAr": "Name Ar",
+  "unit.nameEn": "Name En",
+  "unit.register.nameAr.missing": "name ar is missing",
+  "unit.register.nameEn.missing": "name en is missing",
+  "entity.register": "Register",
+  "entity.reset": "Reset",
 };

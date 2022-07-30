@@ -1,18 +1,19 @@
 import { FC } from "react";
-import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { ActionTypeEnum } from "../../models/enums/enumList";
-import { UserRegisterationResponse } from "../../models/user/userRegisterationResponse";
+import { UnitModel } from "../../models/unit/unit";
 import { isArabicCurrentLanguage } from "../../utils";
-export const UsersList: FC<{
-  request: UserRegisterationResponse[];
+import _ from "lodash";
+import { Button } from "react-bootstrap";
+import { ActionTypeEnum } from "../../models/enums/enumList";
+export const UnitList: FC<{
+  request: UnitModel[];
   onActionEvent?: any | null;
   onCompleteEvent?: any | null;
 }> = ({ request, onActionEvent, onCompleteEvent }) => {
   //#region varaible
   const isArabic: boolean = isArabicCurrentLanguage();
   //#endregion
-  //#region state
+  //#region state(request);
   const { t } = useTranslation();
   //#endregion
   //#region html
@@ -23,9 +24,8 @@ export const UsersList: FC<{
           <thead>
             <tr>
               <th className="width-50">#</th>
-              <th>{t("user.userName")}</th>
-              <th>{t("user.name")}</th>
-              <th>{t("user.isAdmin")}</th>
+              <th>{t("unit.name")}</th>
+              <th>{t("unit.isDefault")}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,13 +34,10 @@ export const UsersList: FC<{
                 <tr key={`user-${index}`}>
                   <td>{index + 1}</td>
                   <td>
-                    <label>{row.User_Name}</label>
+                    <label>{isArabic ? row.Name : row.Name_En}</label>
                   </td>
                   <td>
-                    <label>{isArabic ? row.Name : row.Name_EN}</label>
-                  </td>
-                  <td>
-                    <input type="checkbox" checked={row.IsAdmin}></input>
+                    <input type="checkbox" checked={row.IsDefault}></input>
                   </td>
                   <td>
                     <Button
@@ -69,21 +66,6 @@ export const UsersList: FC<{
                       }}
                     >
                       {t("user.Delete")}
-                    </Button>
-                  </td>
-                  <td>
-                    <Button
-                      type="button"
-                      variant="outline-primary"
-                      onClick={() => {
-                        //onSelect({ id: row.ID, type: "update" });
-                        onActionEvent({
-                          id: row.ID,
-                          action: ActionTypeEnum.GrantPremissions,
-                        });
-                      }}
-                    >
-                      {t("user.Premissions")}
                     </Button>
                   </td>
                 </tr>
