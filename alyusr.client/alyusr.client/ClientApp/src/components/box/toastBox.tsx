@@ -15,17 +15,16 @@ export const ToastBox: FC<{
       ? request.variant
       : "Primary";
 
-  const [show, setShow] = useState(toastModel.current.show);
+  const [isShow, setIsShow] = useState(toastModel.current.show);
   return (
     <Row>
       <Col xs={6}>
         <Toast
           onClose={() => {
             toastModel.current.show = false;
-            //request.show = false;
-            setShow(toastModel.current.show);
+            setIsShow(false);
           }}
-          show={toastModel.current.show}
+          show={isShow}
           delay={toastModel.current.delayDuration}
           autohide={toastModel.current.delayDuration !== 0 ? true : false}
           bg={variant.toLowerCase()}

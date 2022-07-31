@@ -5,7 +5,7 @@ import { ConfirmModelDialogBox } from "../../components/box/confirmDialogBox";
 import { LoadingBox } from "../../components/box/loadingBox";
 import { MessageBox } from "../../components/box/messageBox";
 import { ModelDialogBox } from "../../components/box/modelDialogBox";
-import { ToastBox } from "../../components/box/toastBox";
+import { ToastBoxV2 } from "../../components/box/toastBoxV2";
 import { RegisterUnit } from "../../components/units/registerUnit";
 import { UnitList } from "../../components/units/unitList";
 import { ToastModel } from "../../models/common/toastModel";
@@ -34,6 +34,7 @@ export const UnitPage: FC<{}> = () => {
   const [showAddModel, setShowAddModel] = useState(false);
   const [showModifyModel, setShowModifyModel] = useState(false);
   const [showDeleteModel, setShowDeleteModel] = useState(false);
+  const [showToastModel, setShowToastModel] = useState(false);
   //#endregion
   //#region varaibles
   const deleteActions: ActionButtons[] = [
@@ -92,10 +93,11 @@ export const UnitPage: FC<{}> = () => {
         setLoading(true);
         await getAllObjects();
         let toastObjectToastModel = toastModel;
-        toastObjectToastModel.show = true;
         toastObjectToastModel.body = "process completed successfully";
+        toastObjectToastModel.variant = "Success";
         setLoading(false);
         setToastModel(toastObjectToastModel);
+        setShowToastModel(true);
         break;
       default:
         break;
@@ -108,10 +110,11 @@ export const UnitPage: FC<{}> = () => {
         setLoading(true);
         await getAllObjects();
         let toastObjectToastModel = toastModel;
-        toastObjectToastModel.show = true;
         toastObjectToastModel.body = "process completed successfully";
+        toastObjectToastModel.variant = "Success";
         setLoading(false);
         setToastModel(toastObjectToastModel);
+        setShowToastModel(true);
         break;
       default:
         break;
@@ -119,26 +122,23 @@ export const UnitPage: FC<{}> = () => {
   };
   const handleDelete = async () => {
     setShowDeleteModel(false);
-    setLoading(true);
     var deleteObjectResponse = await deleteUnit(
       object !== null ? object.ID : 0
     );
     let toastObjectToastModel = toastModel;
-    toastObjectToastModel.show = true;
-    console.log("delete", deleteObjectResponse);
     if (
       deleteObjectResponse.Errors != null &&
       deleteObjectResponse.Errors.length !== 0
     ) {
-      toastObjectToastModel.body = "process failed try again alter";
+      toastObjectToastModel.body = "process failed try again alter-1";
       toastObjectToastModel.variant = "Danger";
     } else {
       toastObjectToastModel.body = "process completed successfully";
       toastObjectToastModel.variant = "Success";
       getAllObjects();
     }
-    setLoading(false);
     setToastModel(toastObjectToastModel);
+    setShowToastModel(true);
   };
   //#endregion
   //#region html
@@ -146,7 +146,18 @@ export const UnitPage: FC<{}> = () => {
     <>
       {loading && <LoadingBox />}
       {<MessageBox errors={validationErrors} />}
-      {toastModel.show && <ToastBox request={toastModel} />}
+      {showToastModel && (
+        <ToastBoxV2
+          isShown={showToastModel}
+          header={toastModel.Header}
+          body={toastModel.body}
+          variant={toastModel.variant}
+          delayDuration={toastModel.delayDuration}
+          onCloseEvent={() => {
+            setShowToastModel(false);
+          }}
+        />
+      )}
       {/* delete object  */}
       <ConfirmModelDialogBox
         isModelVisible={showDeleteModel}
