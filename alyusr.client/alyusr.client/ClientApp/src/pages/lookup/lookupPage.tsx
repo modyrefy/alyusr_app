@@ -1,32 +1,33 @@
 import { FC, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { ConfirmModelDialogBox } from "../../components/box/confirmDialogBox";
 import { LoadingBox } from "../../components/box/loadingBox";
 import { MessageBox } from "../../components/box/messageBox";
 import { ModelDialogBox } from "../../components/box/modelDialogBox";
 import { ToastBoxV2 } from "../../components/box/toastBoxV2";
-import { RegisterUnit } from "../../components/units/registerUnit";
-import { UnitList } from "../../components/units/unitList";
+import { LookupList } from "../../components/lookup/lookupList";
+import { RegisterLookup } from "../../components/lookup/registerLookup";
 import { ToastModel } from "../../models/common/toastModel";
 import { ActionButtons } from "../../models/dialog/dialogModel";
 import { ActionTypeEnum } from "../../models/enums/enumList";
-import { UnitModel } from "../../models/unit/unit";
+import { LookupModel } from "../../models/lookup/lookups";
 import { RequestAction } from "../../models/user/userRegisterationResponse";
 import { ValidationError } from "../../models/validation/error";
 import {
-  deleteUnit,
-  getUnits,
+  getLookupByType,
+  deleteLookup,
 } from "../../serviceBroker/alYusrApiServiceBroker";
-export const UnitPage: FC<{}> = () => {
+export const LookupPage: FC<{}> = () => {
   //#region state
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>(
     []
   );
-  const [objects, setObjects] = useState<UnitModel[]>([]);
-  const [object, setObject] = useState<UnitModel | null>(null);
+  const [objects, setObjects] = useState<LookupModel[]>([]);
+  const [object, setObject] = useState<LookupModel | null>(null);
   const [toastModel, setToastModel] = useState<ToastModel>({
     show: false,
     variant: "Primary",
@@ -35,6 +36,7 @@ export const UnitPage: FC<{}> = () => {
   const [showModifyModel, setShowModifyModel] = useState(false);
   const [showDeleteModel, setShowDeleteModel] = useState(false);
   const [showToastModel, setShowToastModel] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   //#endregion
   //#region varaibles
   const deleteActions: ActionButtons[] = [
@@ -78,7 +80,7 @@ export const UnitPage: FC<{}> = () => {
   };
   const getAllObjects = async () => {
     setLoading(true);
-    const result = await getUnits();
+    const result = await getLookupByType(Number(searchParams.get("typeId")));
     console.log("result", result);
     // @ts-ignore
     setObjects(result?.Result);
@@ -122,7 +124,7 @@ export const UnitPage: FC<{}> = () => {
   };
   const handleDelete = async () => {
     setShowDeleteModel(false);
-    var deleteObjectResponse = await deleteUnit(
+    var deleteObjectResponse = await deleteLookup(
       object !== null ? object.ID : 0
     );
     let toastObjectToastModel = toastModel;
@@ -130,7 +132,7 @@ export const UnitPage: FC<{}> = () => {
       deleteObjectResponse.Errors != null &&
       deleteObjectResponse.Errors.length !== 0
     ) {
-      toastObjectToastModel.body = "process failed try again alter-1";
+      toastObjectToastModel.body = "process failed try again alter";
       toastObjectToastModel.variant = "Danger";
     } else {
       toastObjectToastModel.body = "process completed successfully";
@@ -173,7 +175,7 @@ export const UnitPage: FC<{}> = () => {
         isModelVisible={showAddModel}
         isCloseButtonVisible={false}
       >
-        <RegisterUnit onComplete={handleAddComplete} />
+        <RegisterLookup onComplete={handleAddComplete} />
       </ModelDialogBox>
       <Button
         variant="outline-primary"
@@ -181,7 +183,7 @@ export const UnitPage: FC<{}> = () => {
           setShowAddModel(true);
         }}
       >
-        {t("unit.Add")}
+        {t("user.Add")}
       </Button>
 
       {/* modify user  */}
@@ -189,11 +191,11 @@ export const UnitPage: FC<{}> = () => {
         isModelVisible={showModifyModel}
         isCloseButtonVisible={false}
       >
-        <RegisterUnit onComplete={handleModifyComplete} request={object} />
+        <RegisterLookup onComplete={handleModifyComplete} request={object} />
       </ModelDialogBox>
       {/* unit list */}
       {objects && objects.length !== 0 && (
-        <UnitList
+        <LookupList
           request={objects}
           onActionEvent={(o: RequestAction) => {
             handleAction(o);

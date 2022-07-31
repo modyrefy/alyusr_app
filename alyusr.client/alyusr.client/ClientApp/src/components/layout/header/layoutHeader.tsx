@@ -42,6 +42,12 @@ export const LayoutHeader: FC<any> = () => {
                       <NavDropdown.Item href="/company/setting">
                         Company-Settings
                       </NavDropdown.Item>
+                      <NavDropdown.Item href="/lookup?typeId=1">
+                        Tables
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="/lookup?typeId=2">
+                        Cities
+                      </NavDropdown.Item>
                       <NavDropdown.Item href="#action/3.3">
                         Something
                       </NavDropdown.Item>

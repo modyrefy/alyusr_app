@@ -4,6 +4,7 @@ import {
   DashboardPage,
   ForbiddenPage,
   HomePage,
+  LookupPage,
   UnitPage,
   UsersPage,
 } from "../../pages";
@@ -69,6 +70,17 @@ export const DefaultRouteItems: IRouteBase[] = [
       <AuthenticatedRoute>
         <MasterLayout>
           <UnitPage />
+        </MasterLayout>
+      </AuthenticatedRoute>
+    ),
+  },
+  {
+    key: "lookupPage",
+    path: "/lookup",
+    content: (
+      <AuthenticatedRoute>
+        <MasterLayout>
+          <LookupPage />
         </MasterLayout>
       </AuthenticatedRoute>
     ),

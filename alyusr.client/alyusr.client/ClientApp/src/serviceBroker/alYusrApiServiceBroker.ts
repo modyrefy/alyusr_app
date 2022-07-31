@@ -13,8 +13,52 @@ import {
 } from "../models/user/useePermissionResponse";
 import { CompanySetting } from "../models/company/companySetting";
 import { DeleteunitModel, UnitModel, UnitsModel } from "../models/unit/unit";
+import { DeleteLookupModel, LookupModel } from "../models/lookup/lookups";
 //#region lookup
-
+export const getLookupByType = async (
+  typeId: number
+): Promise<ResponseBase<LookupModel[]> | null> => {
+  try {
+    let url: string = `GetLookupByTypeId?lookupTypeId=${typeId}`;
+    const result: ResponseBase<LookupModel[]> =
+      await AlYusrAxiosApiInstance.get(url);
+    // @ts-ignore
+    return result;
+  } catch (err) {
+    alert(err);
+  }
+  return null;
+};
+export const saveLookup = async (
+  request: LookupModel
+): Promise<ResponseBase<LookupModel> | null> => {
+  try {
+    let url: string = `SaveLookup`;
+    const result: ResponseBase<LookupModel> = await AlYusrAxiosApiInstance.post(
+      url,
+      request
+    );
+    // @ts-ignore
+    return result;
+  } catch (err) {
+    alert(err);
+  }
+  return null;
+};
+export const deleteLookup = async (
+  id: number
+): Promise<ResponseBase<DeleteLookupModel>> => {
+  let apiResponse: ResponseBase<DeleteLookupModel> = {};
+  try {
+    let url: string = `DeleteLookup?id=${id}`;
+    apiResponse = await AlYusrAxiosApiInstance.post(url);
+    // @ts-ignore\
+    return apiResponse;
+  } catch (err) {
+    alert(err);
+  }
+  return apiResponse;
+};
 //#endregion
 //#region user
 export const AuthenticateUser = async (
